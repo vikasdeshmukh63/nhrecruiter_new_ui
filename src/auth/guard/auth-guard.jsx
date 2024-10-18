@@ -44,10 +44,10 @@ export function AuthGuard({ children }) {
 
       const signInPath = {
         jwt: paths.auth.jwt.login,
-        auth0: paths.auth.auth0.signIn,
-        amplify: paths.auth.amplify.signIn,
-        firebase: paths.auth.firebase.signIn,
-        supabase: paths.auth.supabase.signIn,
+        // auth0: paths.auth.auth0.signIn,
+        // amplify: paths.auth.amplify.signIn,
+        // firebase: paths.auth.firebase.signIn,
+        // supabase: paths.auth.supabase.signIn,
       }[method];
 
       const href = `${signInPath}?${createQueryString('returnTo', pathname)}`;
