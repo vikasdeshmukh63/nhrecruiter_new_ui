@@ -20,8 +20,11 @@ export const paths = {
       resetPassword: `${ROOTS.AUTH}/amplify/reset-password`,
     },
     jwt: {
-      signIn: `${ROOTS.AUTH}/jwt/sign-in`,
-      signUp: `${ROOTS.AUTH}/jwt/sign-up`,
+      login: `${ROOTS.AUTH}/sign-in`,
+      register: `${ROOTS.AUTH}/register`,
+      org: `${ROOTS.AUTH}/register`,
+      orgSuccess: `${ROOTS.AUTH}/register/success`,
+      collegeSuccess: `${ROOTS.AUTH}/college/register/success`,
     },
     firebase: {
       signIn: `${ROOTS.AUTH}/firebase/sign-in`,
@@ -43,12 +46,40 @@ export const paths = {
   // DASHBOARD
   dashboard: {
     root: ROOTS.DASHBOARD,
-    two: `${ROOTS.DASHBOARD}/two`,
-    three: `${ROOTS.DASHBOARD}/three`,
+  },
+  application: {
+    root: ROOTS.APPLICATION,
     group: {
-      root: `${ROOTS.DASHBOARD}/group`,
-      five: `${ROOTS.DASHBOARD}/group/five`,
-      six: `${ROOTS.DASHBOARD}/group/six`,
+      root: '/jobposts',
+      view: `${ROOTS.APPLICATION}/jobposts/view`,
+      create: `${ROOTS.APPLICATION}/jobposts/create`,
     },
+    interviews: {
+      root: `${ROOTS.APPLICATION}/interviews`,
+      group: {
+        list: `${ROOTS.APPLICATION}/interviews/list`,
+        sharedInterviews: `${ROOTS.APPLICATION}/interviews/view-shared-interviews`,
+      },
+    },
+    schedules: `${ROOTS.APPLICATION}/schedules`,
+  },
+  admin: {
+    root: ROOTS.ADMIN,
+    organization: `${ROOTS.ADMIN}/organization`,
+    companies: `${ROOTS.ADMIN}/companies`,
+    subscription: `${ROOTS.ADMIN}/subscriptionplans`,
+    instantHire: `${ROOTS.ADMIN}/instant-hire`,
+    credits: {
+      root: '/credits',
+      group: {
+        buy: `${ROOTS.ADMIN}/credits/buy`,
+        history: `${ROOTS.ADMIN}/credits/history`,
+      },
+      cart: `${ROOTS.ADMIN}/credits/cart`,
+      success: '/success-pages/credit-success/',
+    },
+  },
+  profile: {
+    edit: '/profile/editprofile/',
   },
 };

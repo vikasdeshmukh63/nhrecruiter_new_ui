@@ -46,8 +46,8 @@ export function JwtSignInView() {
 
 
   const defaultValues = {
-    username: '',
-    password: '',
+    username: 'kott.chaithanya+1@gmail.com',
+    password: 'IntelTech!234',
   };
 
   const methods = useForm({
@@ -126,7 +126,7 @@ export function JwtSignInView() {
         description={
           <>
             {`Don’t have an account? `}
-            <Link component={RouterLink} href={paths.auth.jwt.signUp} variant="subtitle2">
+            <Link component={RouterLink} href={paths.auth.jwt.register} variant="subtitle2">
               Get started
             </Link>
           </>
