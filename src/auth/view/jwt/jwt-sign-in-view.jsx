@@ -1,9 +1,9 @@
 'use client';
 
-import { z as zod } from 'zod';
+import * as Yup from 'yup';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
@@ -27,17 +27,12 @@ import { signInWithPassword } from '../../context/jwt';
 
 // ----------------------------------------------------------------------
 
-export const SignInSchema = zod.object({
-  email: zod
-    .string()
-    .min(1, { message: 'Email is required!' })
-    .email({ message: 'Email must be a valid email address!' }),
-  password: zod
-    .string()
-    .min(1, { message: 'Password is required!' })
-    .min(6, { message: 'Password must be at least 6 characters!' }),
+const SignInSchema = Yup.object().shape({
+  username: Yup.string()
+    .required('Email is required')
+    .email('Email must be a valid email address'),
+  password: Yup.string().required('Password is required'),
 });
-
 // ----------------------------------------------------------------------
 
 export function JwtSignInView() {
@@ -49,13 +44,14 @@ export function JwtSignInView() {
 
   const password = useBoolean();
 
+
   const defaultValues = {
-    email: 'demo@minimals.cc',
-    password: '@demo1',
+    username: '',
+    password: '',
   };
 
   const methods = useForm({
-    resolver: zodResolver(SignInSchema),
+    resolver: yupResolver(SignInSchema),
     defaultValues,
   });
 
@@ -66,7 +62,7 @@ export function JwtSignInView() {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await signInWithPassword({ email: data.email, password: data.password });
+      await signInWithPassword({ username: data.username, password: data.password });
       await checkUserSession?.();
 
       router.refresh();
@@ -78,7 +74,7 @@ export function JwtSignInView() {
 
   const renderForm = (
     <Box gap={3} display="flex" flexDirection="column">
-      <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
+      <Field.Text name="username" label="Email address" InputLabelProps={{ shrink: true }} />
 
       <Box gap={1.5} display="flex" flexDirection="column">
         <Link

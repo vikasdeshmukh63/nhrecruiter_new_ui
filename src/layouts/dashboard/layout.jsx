@@ -88,7 +88,7 @@ export function DashboardLayout({ sx, children, header, data }) {
                 This is an info Alert.
               </Alert>
             ),
-            bottomArea: isNavHorizontal ? (
+            centerArea: isNavHorizontal ? (
               <NavHorizontal
                 data={navData}
                 layoutQuery={layoutQuery}
@@ -132,10 +132,20 @@ export function DashboardLayout({ sx, children, header, data }) {
                   />
                 )}
                 {/* -- Workspace popover -- */}
-                <WorkspacesPopover
+                {isNavHorizontal && (
+                  <Logo
+                    sx={{
+                      display: 'none',
+                      [theme.breakpoints.up(layoutQuery)]: {
+                        display: 'inline-flex',
+                      },
+                    }}
+                  />
+                )}
+                {/* <WorkspacesPopover
                   data={_workspaces}
                   sx={{ color: 'var(--layout-nav-text-primary-color)' }}
-                />
+                /> */}
               </>
             ),
             rightArea: (
@@ -143,7 +153,7 @@ export function DashboardLayout({ sx, children, header, data }) {
                 {/* -- Searchbar -- */}
                 <Searchbar data={navData} />
                 {/* -- Language popover -- */}
-                <LanguagePopover
+                {/* <LanguagePopover
                   data={[
                     { value: 'en', label: 'English', countryCode: 'GB' },
                     { value: 'fr', label: 'French', countryCode: 'FR' },
@@ -151,13 +161,13 @@ export function DashboardLayout({ sx, children, header, data }) {
                     { value: 'cn', label: 'Chinese', countryCode: 'CN' },
                     { value: 'ar', label: 'Arabic', countryCode: 'SA' },
                   ]}
-                />
+                /> */}
                 {/* -- Notifications popover -- */}
                 <NotificationsDrawer data={_notifications} />
                 {/* -- Contacts popover -- */}
-                <ContactsPopover data={_contacts} />
+                {/* <ContactsPopover data={_contacts} /> */}
                 {/* -- Settings button -- */}
-                <SettingsButton />
+                {/* <SettingsButton /> */}
                 {/* -- Account drawer -- */}
                 <AccountDrawer data={_account} />
               </Box>

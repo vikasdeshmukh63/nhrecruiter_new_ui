@@ -20,16 +20,16 @@ export function AuthProvider({ children }) {
 
   const checkUserSession = useCallback(async () => {
     try {
-      const accessToken = sessionStorage.getItem(STORAGE_KEY);
+      const token = localStorage.getItem(STORAGE_KEY);
 
-      if (accessToken && isValidToken(accessToken)) {
-        setSession(accessToken);
+      if (token && isValidToken(token)) {
+        setSession(token);
 
-        const res = await axios.get(endpoints.auth.me);
+        const res = await axios.post(endpoints.auth.me);
 
         const { user } = res.data;
 
-        setState({ user: { ...user, accessToken }, loading: false });
+        setState({ user: { ...user, token }, loading: false });
       } else {
         setState({ user: null, loading: false });
       }

@@ -8,9 +8,9 @@ export const defaultSettings = {
   colorScheme: 'light',
   direction: 'ltr',
   contrast: 'default',
-  navLayout: 'vertical',
-  primaryColor: 'default',
-  navColor: 'integrate',
+  navLayout: 'horizontal',
+  primaryColor: 'cyan',
+  navColor: 'apparent',
   compactLayout: true,
   fontFamily: defaultFont,
 };

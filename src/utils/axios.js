@@ -31,28 +31,117 @@ export const fetcher = async (args) => {
 // ----------------------------------------------------------------------
 
 export const endpoints = {
-  chat: '/api/chat',
-  kanban: '/api/kanban',
-  calendar: '/api/calendar',
   auth: {
-    me: '/api/auth/me',
-    signIn: '/api/auth/sign-in',
-    signUp: '/api/auth/sign-up',
+    me: '/recruiter/api/v1/customers/me',
+    login: '/recruiter/auth/login',
+    loginWithoutPassword: '/recruiter/auth/login/wp',
+    register: '/recruiter/auth/register',
+    forgotPassword: '/recruiter/auth/forgot-password',
+    resetPassword: '/recruiter/auth/reset-password',
+    resendOtp: '/recruiter/auth/resend-otp',
+    otpValidate: '/recruiter/auth/validate-otp',
   },
-  mail: {
-    list: '/api/mail/list',
-    details: '/api/mail/details',
-    labels: '/api/mail/labels',
+  candidate: {
+    list: '/recruiter/api/v1/candidates/list',
+    create: '/recruiter/api/v1/candidates/create',
+    update: '/recruiter/api/v1/candidates/editcandidate',
+    search: '/recruiter/api/v1/candidates/search',
+    interviewStatus: '/recruiter/api/v1/interviews/status',
+    interviewStatusEvent: '/recruiter/api/v1/interviews/events',
+    candidateOnJobId: '/recruiter/api/v1/candidates/list_ext',
+    deleteMany: '/recruiter/api/v1/candidates/softDeleteMany',
+    deleteSingle: '/recruiter/api/v1/candidates/softDelete',
+    IntRecTimeline: '/recruiter/api/v1/interviews/events',
+    VideoUrl: '/recruiter/api/v1/candidates/getvideourl',
+    sharedUrl: '/recruiter/api/v1/interviews/shared',
+    resume: '/recruiter/api/v1/candidates/getresumefile',
+    createURL: '/recruiter/api/v1/ext_share_links/create',
   },
-  post: {
-    list: '/api/post/list',
-    details: '/api/post/details',
-    latest: '/api/post/latest',
-    search: '/api/post/search',
+  companies: {
+    list: '/recruiter/api/v1/companies/list',
+    search: '/recruiter/api/v1/companies/search',
+    create: '/recruiter/api/v1/companies/create',
+    update: '/recruiter/api/v1/companies/partial-update',
   },
-  product: {
-    list: '/api/product/list',
-    details: '/api/product/details',
-    search: '/api/product/search',
+  dashboard: {
+    dashboardCount: '/recruiter/api/v1/customers/rec_dashboard',
+    dashboardData: '/recruiter/api/v1/customers/rec_dashboard_c',
+  },
+  general: {
+    platformConstants: '/general/platformconstants/list',
+    languageList: '/general/languages/list',
+    countriesList: '/general/countries/list',
+  },
+  interview: {
+    list: '/recruiter/api/v1/interviews/list',
+    sharedInterviews: '/recruiter/api/v1/ext_share_links_views/list',
+  },
+  invite: {
+    manualAddCandidate: 'recruiter/api/v1/jp_candidates/addBulk',
+    inviteList: '/recruiter/api/v1/jp_candidates/list',
+    searchCandidate: '/recruiter/api/v1/jp_candidates/search',
+    deleteInvitation: '/recruiter/api/v1/jp_candidates/softDelete',
+  },
+  jobPost: {
+    create: '/recruiter/api/v1/job_posts/create',
+    list: '/recruiter/api/v1/job_posts/list',
+    search: '/recruiter/api/v1/job_posts/search',
+    deleteMany: '/recruiter/api/v1/job_posts/softDeleteMany',
+    techSkills: '/recruiter/api/v1/jp_skills/list',
+    deleteSingle: '/recruiter/api/v1/job_posts/softDelete',
+    update: '/recruiter/api/v1/job_posts/partial-update',
+    insights: 'recruiter/api/v1/job_posts/insights',
+  },
+  notification: {
+    list: '/recruiter/api/v1/notifications/list',
+    update: '/recruiter/api/v1/notifications/partial-update',
+    updateBulk: '/recruiter/api/v1/notifications/updateBulk',
+  },
+  organization: {
+    search: '/recruiter/api/v1/organizations/search',
+    list: '/recruiter/api/v1/organizations/list',
+    update: '/recruiter/api/v1/organizations/partial-update',
+    delete: '/recruiter/api/v1/organizations/softDeleteMany',
+    create: '/recruiter/api/v1/organizations/createwithaccount',
+    ip: 'http://ip-api.com/json/?fields=61439',
+    createCollege: '/auth/iregister/',
+  },
+  proficiencies: {
+    list: '/guest/masters/list',
+  },
+  schedule: {
+    list: '/recruiter/api/v1/iv_schedules/list',
+  },
+  skills: {
+    search: '/recruiter/api/v1/skills/search',
+    create: '/recruiter/api/v1/skills/create',
+    list: '/recruiter/api/v1/skills/list',
+    deleteMany: '/recruiter/api/v1/softDeleteMany',
+    createBulk: '/recruiter/api/v1/addBulk',
+    update: '/recruiter/api/v1/skills/partial-update',
+  },
+  subscription: {
+    featuresList: '/recruiter/api/v1/plans/list',
+    categoryList: '/recruiter/api/v1/plans_categories/list',
+  },
+  userAccount: {
+    userData: '/recruiter/api/v1/customers/me',
+    update: '/recruiter/api/v1/customers/partial-update',
+  },
+  verify: {
+    validateOTP: '/recruiter/auth/validate-otp',
+    resendOTP: '/recruiter/auth/resend-otp',
+  },
+  uploads: {
+    bulkUploadCandidateInvite: '/recruiter/api/v1/uploadCandidates',
+  },
+  credit: {
+    balance: '/recruiter/api/v1/iv_credits/get?userType=3&id=',
+    list: '/recruiter/api/v1/credit_purchases/list',
+    discounts: '/recruiter/api/v1/plan_discounts',
+  },
+  instantHire: {
+    jobSearch: '/recruiter/api/v1/job_titles/search',
+    filters: '/recruiter/api/v1/candidates/filter',
   },
 };
