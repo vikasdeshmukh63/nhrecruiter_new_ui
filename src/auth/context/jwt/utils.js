@@ -59,7 +59,7 @@ export function tokenExpired(exp) {
     try {
       alert('Token expired!');
       localStorage.removeItem(STORAGE_KEY);
-      window.location.href = paths.auth.jwt.signIn;
+      window.location.href = paths.auth.jwt.login;
     } catch (error) {
       console.error('Error during token expiration:', error);
       throw error;
