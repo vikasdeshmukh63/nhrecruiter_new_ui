@@ -1,0 +1,1 @@
+export {default as CreditSuccess} from "./credit-success"

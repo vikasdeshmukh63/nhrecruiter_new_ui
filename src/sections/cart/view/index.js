@@ -1,0 +1,1 @@
+export { default as ViewCart } from './view-cart';

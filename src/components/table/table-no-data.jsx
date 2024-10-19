@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import TableRow from '@mui/material/TableRow';
 import TableCell from '@mui/material/TableCell';
 
@@ -27,9 +25,3 @@ export default function TableNoData({ notFound,title, sx }) {
     </TableRow>
   );
 }
-
-TableNoData.propTypes = {
-  notFound: PropTypes.bool,
-  title: PropTypes.string,
-  sx: PropTypes.object,
-};

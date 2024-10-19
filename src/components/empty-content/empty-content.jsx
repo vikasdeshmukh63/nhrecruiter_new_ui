@@ -1,11 +1,7 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { Button } from '@mui/material';
-import Link from 'next/link';
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +35,7 @@ export default function EmptyContent({
       <Box
         component="img"
         alt="empty content"
-        src={imgUrl || '/assets/icons/empty/ic_content.svg'}
+        src={imgUrl || '/assets/icons/empty/ic-content.svg'}
         sx={{ width: 1, maxWidth: 160 }}
       />
 
@@ -64,13 +60,3 @@ export default function EmptyContent({
     </Stack>
   );
 }
-
-EmptyContent.propTypes = {
-  action: PropTypes.node,
-  description: PropTypes.string,
-  filled: PropTypes.bool,
-  imgUrl: PropTypes.string,
-  sx: PropTypes.object,
-  title: PropTypes.string,
-  children: PropTypes.node,
-};
