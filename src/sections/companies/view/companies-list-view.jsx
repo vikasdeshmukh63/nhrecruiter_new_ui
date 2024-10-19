@@ -21,11 +21,11 @@ import { useBoolean } from 'src/hooks/use-boolean';
 
 import { CONSTANTS } from 'src/constants';
 import { DashboardContent } from 'src/layouts/dashboard';
+import { fetchCountries } from 'src/redux/slices/general';
 import { fetchCompaniesList } from 'src/redux/slices/company';
 
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
-import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import {
   useTable,
@@ -39,7 +39,6 @@ import {
 import { CompaniesTableRow } from '../companies-table-row';
 import { CompaniesQuickEditForm } from '../companies-quick-edit-form';
 import { CompaniesFiltersResult } from '../companies-table-filters-result';
-import { fetchCountries } from 'src/redux/slices/general';
 
 // ----------------------------------------------------------------------
 
@@ -74,8 +73,6 @@ export default function CompaniesListView() {
   const [filters, setFilters] = useState(defaultFilters);
 
   const table = useTable();
-
-  const settings = useSettingsContext();
 
   const dispatch = useDispatch();
 
