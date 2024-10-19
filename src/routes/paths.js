@@ -16,7 +16,7 @@ export const paths = {
   auth: {
     jwt: {
       login: `${ROOTS.AUTH}/sign-in`,
-      register: `${ROOTS.AUTH}/register`,
+      register: `${ROOTS.AUTH}/sign-up`,
       org: `${ROOTS.AUTH}/register`,
       orgSuccess: `${ROOTS.AUTH}/register/success`,
       collegeSuccess: `${ROOTS.AUTH}/college/register/success`,

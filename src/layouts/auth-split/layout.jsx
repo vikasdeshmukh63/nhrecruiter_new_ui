@@ -80,12 +80,12 @@ export function AuthSplitLayout({ sx, section, children, header }) {
           imgUrl={section?.imgUrl}
           method={CONFIG.auth.method}
           subtitle={section?.subtitle}
-          methods={[
-            {
-              label: 'Jwt',
-              path: paths.auth.jwt.login,
-              icon: `${CONFIG.assetsDir}/assets/icons/platforms/ic-jwt.svg`,
-            },
+          // methods={[
+            // {
+            //   label: 'Jwt',
+            //   path: paths.auth.jwt.login,
+            //   icon: `${CONFIG.assetsDir}/assets/icons/platforms/ic-jwt.svg`,
+            // },
             // {
             //   label: 'Firebase',
             //   path: paths.auth.firebase.signIn,
@@ -106,7 +106,7 @@ export function AuthSplitLayout({ sx, section, children, header }) {
             //   path: paths.auth.supabase.signIn,
             //   icon: `${CONFIG.assetsDir}/assets/icons/platforms/ic-supabase.svg`,
             // },
-          ]}
+          // ]}
         />
         <Content layoutQuery={layoutQuery}>{children}</Content>
       </Main>

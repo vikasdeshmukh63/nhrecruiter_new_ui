@@ -14,6 +14,8 @@ import { MotionLazy } from 'src/components/animate/motion-lazy';
 import { SettingsDrawer, defaultSettings, SettingsProvider } from 'src/components/settings';
 
 import { AuthProvider } from 'src/auth/context/jwt';
+import { StoreProvider } from 'src/redux/provider/StoreProvider';
+import { Snackbar } from 'src/components/snackbar';
 
 // ----------------------------------------------------------------------
 
@@ -36,22 +38,26 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body>
-        <InitColorSchemeScript
-          defaultMode={schemeConfig.defaultMode}
-          modeStorageKey={schemeConfig.modeStorageKey}
-        />
+        <StoreProvider>
+          <Snackbar>
+            <InitColorSchemeScript
+              defaultMode={schemeConfig.defaultMode}
+              modeStorageKey={schemeConfig.modeStorageKey}
+            />
 
-        <AuthProvider>
-          <SettingsProvider settings={defaultSettings}>
-            <ThemeProvider>
-              <MotionLazy>
-                <ProgressBar />
-                <SettingsDrawer />
-                {children}
-              </MotionLazy>
-            </ThemeProvider>
-          </SettingsProvider>
-        </AuthProvider>
+            <AuthProvider>
+              <SettingsProvider settings={defaultSettings}>
+                <ThemeProvider>
+                  <MotionLazy>
+                    <ProgressBar />
+                    <SettingsDrawer />
+                    {children}
+                  </MotionLazy>
+                </ThemeProvider>
+              </SettingsProvider>
+            </AuthProvider>
+          </Snackbar>
+        </StoreProvider>
       </body>
     </html>
   );
