@@ -32,7 +32,7 @@ const imageInputStyle = {
   gap: 3,
 };
 
-export default function CompaniesQuickEditForm({
+export function CompaniesQuickEditForm({
   currentCompany,
   open,
   onClose,

@@ -5,18 +5,11 @@ import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
-import Iconify from 'src/components/iconify';
+import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
-export default function CompaniesFiltersResult({
-  filters,
-  onFilters,
-  onResetFilters,
-  results,
-  ...other
-}) {
+export function CompaniesFiltersResult({ filters, onFilters, onResetFilters, results, ...other }) {
   // function to clear the status filter
   const handleRemoveStatus = useCallback(() => {
     onFilters('status', 'all');
@@ -54,7 +47,6 @@ export default function CompaniesFiltersResult({
   );
 }
 
-
 // ----------------------------------------------------------------------
 
 function Block({ label, children, sx, ...other }) {
@@ -83,5 +75,3 @@ function Block({ label, children, sx, ...other }) {
     </Stack>
   );
 }
-
-

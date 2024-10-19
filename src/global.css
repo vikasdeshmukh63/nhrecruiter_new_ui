@@ -58,3 +58,27 @@ input[type='number']::-webkit-inner-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
+
+/* Target the scrollbar */
+::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  height: 8px;
+}
+
+/* Track (the area behind the scrollbar) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the track */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Handle (the draggable part of the scrollbar) */
+::-webkit-scrollbar-thumb {
+  background: #888; /* Color of the scrollbar handle */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker background on hover */
+}
+

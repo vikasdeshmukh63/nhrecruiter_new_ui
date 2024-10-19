@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
 import isEqual from 'lodash/isEqual';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCallback, useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import Tab from '@mui/material/Tab';
 import Card from '@mui/material/Card';
@@ -11,7 +11,6 @@ import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import { alpha } from '@mui/material/styles';
-import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import IconButton from '@mui/material/IconButton';
 import TableContainer from '@mui/material/TableContainer';
@@ -21,10 +20,11 @@ import { paths } from 'src/routes/paths';
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { CONSTANTS } from 'src/constants';
+import { DashboardContent } from 'src/layouts/dashboard';
 import { fetchCompaniesList } from 'src/redux/slices/company';
 
-import Iconify from 'src/components/iconify';
-import Scrollbar from 'src/components/scrollbar';
+import { Iconify } from 'src/components/iconify';
+import { Scrollbar } from 'src/components/scrollbar';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import {
@@ -36,9 +36,10 @@ import {
   TablePaginationCustom,
 } from 'src/components/table';
 
-import InterviewsTableRow from '../companies-table-row';
-import CompaniesQuickEditForm from '../companies-quick-edit-form';
-import InterviewsFiltersResult from '../companies-table-filters-result';
+import { CompaniesTableRow } from '../companies-table-row';
+import { CompaniesQuickEditForm } from '../companies-quick-edit-form';
+import { CompaniesFiltersResult } from '../companies-table-filters-result';
+import { fetchCountries } from 'src/redux/slices/general';
 
 // ----------------------------------------------------------------------
 
@@ -86,6 +87,7 @@ export default function CompaniesListView() {
 
   // extracting data from redux store
   const { companies, itemCount, error } = useSelector((state) => state.company);
+  const { countries } = useSelector((state) => state.general);
 
   // to get the filtered data
   const dataFiltered = applyFilter({
@@ -130,8 +132,15 @@ export default function CompaniesListView() {
     dispatch(fetchCompaniesList(table.page, table.rowsPerPage, status));
   }, [dispatch, status, table.page, table.rowsPerPage]);
 
+  // to get countires if not there
+  useEffect(() => {
+    if (countries.length === 0) {
+      dispatch(fetchCountries());
+    }
+  }, [countries, dispatch]);
+
   return (
-    <Container maxWidth={settings.themeStretch ? false : 'lg'}>
+    <DashboardContent maxWidth="xl">
       <CustomBreadcrumbs
         heading="Companies List"
         links={[
@@ -169,7 +178,7 @@ export default function CompaniesListView() {
 
         {/* reset buttons */}
         {canReset && (
-          <InterviewsFiltersResult
+          <CompaniesFiltersResult
             filters={filters}
             onFilters={handleFilters}
             onResetFilters={handleResetFilters}
@@ -211,7 +220,7 @@ export default function CompaniesListView() {
               <TableBody>
                 {/* table rows  */}
                 {dataFiltered?.map((row) => (
-                  <InterviewsTableRow
+                  <CompaniesTableRow
                     key={row.id_str}
                     row={row}
                     STATUS_OPTIONS={STATUS_OPTIONS}
@@ -249,7 +258,7 @@ export default function CompaniesListView() {
           type={CONSTANTS.CREATE}
         />
       )}
-    </Container>
+    </DashboardContent>
   );
 }
 

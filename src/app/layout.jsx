@@ -39,24 +39,23 @@ export default async function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body>
         <StoreProvider>
-          <Snackbar>
-            <InitColorSchemeScript
-              defaultMode={schemeConfig.defaultMode}
-              modeStorageKey={schemeConfig.modeStorageKey}
-            />
+          <InitColorSchemeScript
+            defaultMode={schemeConfig.defaultMode}
+            modeStorageKey={schemeConfig.modeStorageKey}
+          />
 
-            <AuthProvider>
-              <SettingsProvider settings={defaultSettings}>
-                <ThemeProvider>
-                  <MotionLazy>
-                    <ProgressBar />
-                    <SettingsDrawer />
-                    {children}
-                  </MotionLazy>
-                </ThemeProvider>
-              </SettingsProvider>
-            </AuthProvider>
-          </Snackbar>
+          <AuthProvider>
+            <SettingsProvider settings={defaultSettings}>
+              <ThemeProvider>
+                <MotionLazy>
+                  <Snackbar />
+                  <ProgressBar />
+                  <SettingsDrawer />
+                  {children}
+                </MotionLazy>
+              </ThemeProvider>
+            </SettingsProvider>
+          </AuthProvider>
         </StoreProvider>
       </body>
     </html>

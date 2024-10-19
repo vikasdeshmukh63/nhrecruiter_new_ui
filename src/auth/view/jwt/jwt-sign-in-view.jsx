@@ -2,8 +2,8 @@
 
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { LoadingButton } from '@mui/lab';

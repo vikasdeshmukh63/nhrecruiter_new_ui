@@ -9,10 +9,12 @@ import { finderFunction } from 'src/utils/helperFunctions';
 
 import { CONSTANTS } from 'src/constants';
 
-import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
+import { Label } from 'src/components/label';
+import { Iconify } from 'src/components/iconify';
 
-import CompaniesQuickEditForm from './companies-quick-edit-form';
+import { CompaniesQuickEditForm } from './companies-quick-edit-form';
+
+
 
 // utility function to render text safely
 const renderText = (value, na) => {
@@ -24,7 +26,7 @@ const renderText = (value, na) => {
 
 // ----------------------------------------------------------------------
 
-export default function CompaniesTableRow({
+export function CompaniesTableRow({
   row,
   STATUS_OPTIONS,
   page,
@@ -98,5 +100,3 @@ export default function CompaniesTableRow({
     </>
   );
 }
-
-
