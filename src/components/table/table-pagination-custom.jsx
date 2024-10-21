@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import Switch from '@mui/material/Switch';
@@ -42,10 +41,3 @@ export default function TablePaginationCustom({
     </Box>
   );
 }
-
-TablePaginationCustom.propTypes = {
-  dense: PropTypes.bool,
-  onChangeDense: PropTypes.func,
-  rowsPerPageOptions: PropTypes.arrayOf(PropTypes.number),
-  sx: PropTypes.object,
-};

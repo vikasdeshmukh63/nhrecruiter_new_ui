@@ -19,6 +19,7 @@ import { paths } from 'src/routes/paths';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
+import { DashboardContent } from 'src/layouts/dashboard';
 import { fetchScheduleseList } from 'src/redux/slices/schedules';
 
 import { Iconify } from 'src/components/iconify';
@@ -37,7 +38,6 @@ import {
 import InterviewsTableRow from '../schedules-table-row';
 import InterviewsTableToolbar from '../schedules-table-toolbar';
 import InterviewsFiltersResult from '../schedules-table-filters-result';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 // ----------------------------------------------------------------------
 

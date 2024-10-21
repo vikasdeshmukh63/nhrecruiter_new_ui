@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 
@@ -50,13 +48,3 @@ export default function BreadcrumbsLink({ link, activeLast, disabled }) {
 
   return <Box sx={styles}> {renderContent} </Box>;
 }
-
-BreadcrumbsLink.propTypes = {
-  activeLast: PropTypes.bool,
-  disabled: PropTypes.bool,
-  link: PropTypes.shape({
-    href: PropTypes.string,
-    icon: PropTypes.node,
-    name: PropTypes.string,
-  }),
-};

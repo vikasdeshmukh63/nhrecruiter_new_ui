@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 
 import Box from '@mui/material/Box';
 import TableRow from '@mui/material/TableRow';
@@ -63,11 +62,3 @@ export default function TableHeadCustom({
     </TableHead>
   );
 }
-
-TableHeadCustom.propTypes = {
-  sx: PropTypes.object,
-  onSort: PropTypes.func,
-  orderBy: PropTypes.string,
-  headLabel: PropTypes.array,
-  order: PropTypes.oneOf(['asc', 'desc']),
-};

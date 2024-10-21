@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 
 import MenuItem from '@mui/material/MenuItem';
 import TableRow from '@mui/material/TableRow';
@@ -7,7 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
-import { DateFormat, findStatus, finderFunction } from 'src/utils/helperFunctions';
+import { DateFormat, finderFunction } from 'src/utils/helperFunctions';
 
 import Label from 'src/components/label';
 import Iconify from 'src/components/iconify';
@@ -103,8 +102,3 @@ export default function SchedulesTableRow({ row, STATUS_OPTIONS }) {
     </>
   );
 }
-
-SchedulesTableRow.propTypes = {
-  row: PropTypes.object,
-  STATUS_OPTIONS: PropTypes.array,
-};

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 
 import Stack from '@mui/material/Stack';
 import Checkbox from '@mui/material/Checkbox';
@@ -64,12 +63,3 @@ export default function TableSelectedAction({
     </Stack>
   );
 }
-
-TableSelectedAction.propTypes = {
-  action: PropTypes.node,
-  dense: PropTypes.bool,
-  numSelected: PropTypes.number,
-  onSelectAllRows: PropTypes.func,
-  rowCount: PropTypes.number,
-  sx: PropTypes.object,
-};

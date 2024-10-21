@@ -30,14 +30,13 @@ import { searchSkills } from 'src/redux/slices/skills';
 import { searchLocation } from 'src/redux/slices/jobposts';
 
 import { useTable } from 'src/components/table';
+import { Iconify } from 'src/components/iconify';
+import { Field, Form } from 'src/components/hook-form';
 import { useSettingsContext } from 'src/components/settings';
-
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import CustomLabel from 'src/components/hook-form/label/custom-label';
 
 import UserCard from '../user-card';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import { Iconify } from 'src/components/iconify';
-import { Field, Form } from 'src/components/hook-form';
 
 export default function TalentVaultView() {
   const router = useRouter();

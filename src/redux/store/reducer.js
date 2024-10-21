@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 import cartReducer from '../slices/cart';

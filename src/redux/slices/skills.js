@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 import axiosInstance, { endpoints } from 'src/utils/axios';
 
 const initialState = {
@@ -43,6 +44,7 @@ export const { setSkills, setPagination, hasError, setNewSkill } = skills.action
 export default skills.reducer;
 
 // ! function to search skills
+// eslint-disable-next-line default-param-last
 export function searchSkills(name, page = 1, rowsPerPage) {
   page += 1;
   const payload = {
