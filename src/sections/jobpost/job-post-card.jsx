@@ -157,6 +157,7 @@ const JobPostCard = ({ ...jobPost }) => {
   useEffect(() => {
     if (technicalSkills && isEditJobPost.value) {
       dispatch(setJobPostDataToEdit(dataBuilder()));
+      dispatch(setIndividualJobPostData(jobPost));
       router.push('/application/jobposts/edit/');
       isEditJobPost.onFalse();
     }

@@ -90,7 +90,7 @@ const ViewJobPost = () => {
         {jobPosts.length === 0 ? (
           <EmptyContent filled sx={{ p: 5, height: '80vh' }} title="No Data Available">
             <Stack direction="row" spacing={3} my={4}>
-              <Button variant="contained" component={Link} href="/application/jobpost/create">
+              <Button variant="contained" component={Link} href="/application/jobposts/create">
                 Create
               </Button>
               <Button variant="outlined">Clear Filters</Button>
