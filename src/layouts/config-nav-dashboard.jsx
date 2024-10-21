@@ -59,24 +59,24 @@ export const navData = [
         children: [
           { title: 'view', path: paths.application.group.view },
           { title: 'create', path: paths.application.group.create },
-        ],
-      },
-      {
-        title: 'Interviews',
-        path: paths.application.interviews.root,
-        icon: ICONS.course,
-        children: [
-          { title: 'list', path: paths.application.interviews.group.list },
           {
-            title: 'View Shared Interviews',
-            path: paths.application.interviews.group.sharedInterviews,
+            title: 'Interviews',
+            path: paths.application.interviews.root,
+            icon: ICONS.course,
+            children: [
+              { title: 'list', path: paths.application.interviews.group.list },
+              {
+                title: 'View Shared Interviews',
+                path: paths.application.interviews.group.sharedInterviews,
+              },
+            ],
+          },
+          {
+            title: 'Schedules',
+            path: paths.application.schedules,
+            icon: ICONS.calendar,
           },
         ],
-      },
-      {
-        title: 'Schedules',
-        path: paths.application.schedules,
-        icon: ICONS.calendar,
       },
     ],
   },
