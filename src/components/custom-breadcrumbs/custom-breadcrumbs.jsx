@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
@@ -70,15 +68,6 @@ export default function CustomBreadcrumbs({
     </Box>
   );
 }
-
-CustomBreadcrumbs.propTypes = {
-  sx: PropTypes.object,
-  action: PropTypes.node,
-  links: PropTypes.array,
-  heading: PropTypes.string,
-  moreLink: PropTypes.array,
-  activeLast: PropTypes.bool,
-};
 
 // ----------------------------------------------------------------------
 
