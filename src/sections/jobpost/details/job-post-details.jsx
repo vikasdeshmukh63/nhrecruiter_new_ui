@@ -33,13 +33,13 @@ import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { useTable } from 'src/components/table';
 import { CustomPopover, usePopover } from 'src/components/custom-popover';
+import { DashboardContent } from 'src/layouts/dashboard';
 
 import InvitesTab from '../invites-tab';
 import InsightsTab from '../insights-tab';
 import DetailsTab from './tabs/details-tab';
 import JobPostAddCandidateModal from './job-post-add-candidate-modal';
 import JobPostAddCandidatesList from './tabs/job-post-add-candidates-list';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 const TABS = [
   {
@@ -174,7 +174,7 @@ const JobPostDetails = () => {
   }, [dispatch, isEditJobPost.value, router, technicalSkills]);
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Stack spacing={2}>
         {/* close section */}
         <Stack direction="row">

@@ -1,5 +1,3 @@
-import PropTypes from 'prop-types';
-
 import { Dialog, Typography } from '@mui/material';
 
 // eslint-disable-next-line import/no-cycle
@@ -20,7 +18,3 @@ const AddCandidatesModal = ({ openAdd }) => (
 );
 
 export default AddCandidatesModal;
-
-AddCandidatesModal.propTypes = {
-  openAdd: PropTypes.any,
-};

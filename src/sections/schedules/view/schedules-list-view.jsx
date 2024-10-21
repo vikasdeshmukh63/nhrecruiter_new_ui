@@ -139,7 +139,7 @@ export default function SchedulesListView() {
   }, [dispatch, selectedJobPost, status, table.page, table.rowsPerPage]);
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Schedules List"

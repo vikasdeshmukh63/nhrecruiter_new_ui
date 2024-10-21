@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import isEqual from 'lodash/isEqual';
 import { useDispatch, useSelector } from 'react-redux';
@@ -137,7 +137,7 @@ export default function CompaniesListView() {
   }, [countries, dispatch]);
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <CustomBreadcrumbs
         heading="Companies List"
         links={[

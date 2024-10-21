@@ -36,8 +36,8 @@ import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 import CustomLabel from 'src/components/hook-form/label/custom-label';
 
-import UserCard from '../user-card';
 import { DashboardContent } from 'src/layouts/dashboard';
+import UserCard from '../user-card';
 
 export default function TalentVaultView() {
   const router = useRouter();
@@ -102,7 +102,7 @@ export default function TalentVaultView() {
   };
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Instant Hire"

@@ -1,25 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, Button, Container, Pagination, Stack } from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 
+import { DashboardContent } from 'src/layouts/dashboard';
 import { fetchOrganizationList } from 'src/redux/slices/organization';
 import { fetchAllJobPost, searchJobPost } from 'src/redux/slices/jobposts';
 
-import { Iconify } from 'src/components/iconify';
 import { useTable } from 'src/components/table';
+import { Iconify } from 'src/components/iconify';
+import EmptyContent from 'src/components/empty-content';
 import { useSettingsContext } from 'src/components/settings';
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 
 import JobPostCard from '../job-post-card';
 import JobPostTableToolbar from '../job-post-table-toolbar';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import EmptyContent from 'src/components/empty-content';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 const defaultFilters = {
   title: '',
@@ -63,7 +63,7 @@ const ViewJobPost = () => {
     dispatch(fetchOrganizationList(0, 10));
   }, [dispatch]);
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Container maxWidth={settings.themeStretch ? false : 'xl'}>
         <CustomBreadcrumbs
           heading={`Job Post - (${itemCount})`}

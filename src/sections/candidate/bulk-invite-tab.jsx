@@ -1,5 +1,3 @@
-import Link from 'next/link';
-import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -165,7 +163,3 @@ const BulkInviteTab = ({ openAdd }) => {
 };
 
 export default BulkInviteTab;
-
-BulkInviteTab.propTypes = {
-  openAdd: PropTypes.any,
-};

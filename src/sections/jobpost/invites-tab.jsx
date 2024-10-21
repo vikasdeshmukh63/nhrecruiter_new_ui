@@ -9,10 +9,10 @@ import { useBoolean } from 'src/hooks/use-boolean';
 import { searchCandidates, fetchCandidateListForInviteTab } from 'src/redux/slices/invites';
 
 import { Iconify } from 'src/components/iconify';
+import EmptyContent from 'src/components/empty-content';
 
 import InvitesTable from './invites-table';
 import AddCandidatesModal from '../candidate/add-candidate-modal';
-import EmptyContent from 'src/components/empty-content';
 
 const InvitesTab = () => {
   const dispatch = useDispatch();

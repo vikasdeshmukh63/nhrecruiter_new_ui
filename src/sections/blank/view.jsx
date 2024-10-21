@@ -10,7 +10,7 @@ import { DashboardContent } from 'src/layouts/dashboard';
 
 export function BlankView({ title = 'Blank' }) {
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Typography variant="h4"> {title} </Typography>
 
       <Box

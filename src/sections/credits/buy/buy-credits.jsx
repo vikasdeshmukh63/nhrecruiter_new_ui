@@ -1,23 +1,21 @@
 'use client';
 
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Card, Grid, Typography } from "@mui/material";
+import { Card, Grid, Typography } from '@mui/material';
 
-import { paths } from "src/routes/paths";
+import { paths } from 'src/routes/paths';
 
-import { DashboardContent } from "src/layouts/dashboard";
-import { fetchCreditBalance } from "src/redux/slices/credit";
+import { DashboardContent } from 'src/layouts/dashboard';
+import { fetchCreditBalance } from 'src/redux/slices/credit';
 
-import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 
-import { useAuthContext } from "src/auth/hooks";
+import { useAuthContext } from 'src/auth/hooks';
 
-import PricingCard from "../pricing-card";
-import DashboardWidgetSummary from "../dashboard-widget-summery";
-
-
+import PricingCard from '../pricing-card';
+import DashboardWidgetSummary from '../dashboard-widget-summery';
 
 const userIcon = '/assets/images/glass/ic_glass_users.png';
 
@@ -35,7 +33,7 @@ const BuyCredits = () => {
   }, [dispatch, user?.id_str]);
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <CustomBreadcrumbs
         heading="Buy Credits"
         links={[

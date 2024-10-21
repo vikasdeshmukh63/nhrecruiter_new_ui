@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { Icon } from '@iconify/react';
 
 import Box from '@mui/material/Box';
@@ -30,12 +29,6 @@ function CustomTabPanel(props) {
   );
 }
 
-CustomTabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.number.isRequired,
-  value: PropTypes.number.isRequired,
-};
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -54,8 +47,16 @@ export default function AddCandidateModalTabs({ openAdd }) {
     <Box sx={{ width: '100%', p: 3 }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Bulk Invite" {...a11yProps(0)} icon={<Icon fontSize={30} icon="ph:users-four-duotone"/>}/>
-          <Tab label="Manual Invite" {...a11yProps(1)} icon={<Icon fontSize={30} icon="mdi:invite"/>}/>
+          <Tab
+            label="Bulk Invite"
+            {...a11yProps(0)}
+            icon={<Icon fontSize={30} icon="ph:users-four-duotone" />}
+          />
+          <Tab
+            label="Manual Invite"
+            {...a11yProps(1)}
+            icon={<Icon fontSize={30} icon="mdi:invite" />}
+          />
         </Tabs>
       </Box>
       {/* bulk invite */}
@@ -70,7 +71,3 @@ export default function AddCandidateModalTabs({ openAdd }) {
     </Box>
   );
 }
-
-AddCandidateModalTabs.propTypes = {
-  openAdd: PropTypes.any,
-};

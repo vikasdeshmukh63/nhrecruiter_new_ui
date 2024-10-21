@@ -67,7 +67,7 @@ const OrganizationView = () => {
   }, [countries, dispatch]);
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <CustomBreadcrumbs
         heading={`Organization - ${organizations[0]?.name}`}
         links={[

@@ -153,7 +153,7 @@ export default function InterviewsListView() {
   }, [dashboardFilter?.interviewsCompletedStatus]);
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Interviews List"

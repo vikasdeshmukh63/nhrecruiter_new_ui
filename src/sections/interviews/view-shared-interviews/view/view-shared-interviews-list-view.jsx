@@ -99,7 +99,7 @@ export default function ViewSharedInterviewsListView() {
     dispatch(getAllViewSharedinterviewHistory(table.page, table.rowsPerPage));
   }, [dispatch, table.page, table.rowsPerPage]);
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <Container maxWidth={settings.themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
           heading="Interview View History"
