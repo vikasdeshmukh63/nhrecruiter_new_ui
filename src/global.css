@@ -21,6 +21,8 @@
 *************************************** */
 /* scrollbar */
 @import './components/scrollbar/styles.css';
+@import 'simplebar-react/dist/simplebar.min.css';
+@import 'react-phone-number-input/style.css';
 
 /** **************************************
 * Baseline
@@ -82,3 +84,211 @@ input[type='number']::-webkit-inner-spin-button {
   background: #555; /* Darker background on hover */
 }
 
+/* add candidate list stepper css */
+
+.container {
+  text-align: center;
+  position: relative;
+  margin: 50px auto;
+  padding-bottom: 1px;
+  z-index: 1;
+}
+
+.stepper-wrapper {
+  margin-inline: auto;
+  margin-top: 20px;
+  margin-bottom: 50px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.stepper-wrapper::before {
+  content: '';
+  width: 100%;
+  height: 5px;
+  background-color: lightgray;
+  position: absolute;
+  z-index: -2;
+}
+
+.progress-bar {
+  position: relative;
+  height: 4px;
+  width: 100%;
+  background-color: #e0e4e9;
+  z-index: 0;
+}
+.progress {
+  position: absolute;
+  left: 20px;
+  top: 0;
+  z-index: 1;
+  width: 0;
+  height: 100%;
+  background-color: #00a76f;
+  transition: width 1.2s linear;
+}
+
+.main-stepper-container {
+  position: absolute;
+  z-index: 2;
+  width: 500px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.screen-indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #dfe3e8;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circle.fill::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #00a76f;
+  transform: translateX(0%);
+  animation: fill 0.2s linear;
+}
+
+@keyframes fill {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.icon {
+  position: relative;
+  z-index: 1;
+  color: gray;
+  transition: color 0.7s ease;
+}
+
+.incomplete {
+  background-color: #dfe3e8;
+}
+
+.completed .fill {
+  animation: fillAnimation 2s forwards;
+}
+
+.completed .icon {
+  color: white;
+}
+
+.primary-pulse {
+  animation-delay: 1s;
+  opacity: 0;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  position: absolute;
+  border-radius: 50%;
+  right: -12px;
+  top: 50%;
+  margin-top: -14px;
+  margin-left: -14px;
+  animation-name: progress-effect;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(56, 142, 60, 0),
+    rgba(56, 142, 60, 0.01) 20%,
+    rgba(56, 142, 60, 0.25)
+  );
+}
+
+.secondary-pulse {
+  opacity: 0;
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  margin-top: -14px;
+  margin-left: -14px;
+  animation-name: progress-effect;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    rgba(56, 142, 60, 0),
+    rgba(56, 142, 60, 0.01) 20%,
+    rgba(56, 142, 60, 0.25)
+  );
+  animation-delay: 2s;
+}
+
+.tertiary-pulse {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  background-color: #00a76f;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes progress-effect {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+/* add candidate styles */
+.scroll-container {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.active-section {
+  border-right: 3px solid #00b8d9 !important;
+  background: #eef3fb !important;
+}
+
+nav .container ul li.active {
+  background-color: #3b49df;
+  border-radius: 30px;
+  transition: 0.3s;
+}
