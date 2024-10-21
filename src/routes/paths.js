@@ -48,6 +48,8 @@ export const paths = {
     companies: `${ROOTS.ADMIN}/companies`,
     subscription: `${ROOTS.ADMIN}/subscriptionplans`,
     instantHire: `${ROOTS.ADMIN}/instant-hire`,
+    talentVault: `${ROOTS.ADMIN}/talent-vault`,
+
     credits: {
       root: '/credits',
       group: {

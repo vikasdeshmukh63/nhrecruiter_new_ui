@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import axiosInstance, { endpoints } from 'src/utils/axios';
+import { convertData } from 'src/utils/helperFunctions';
 
 const initialState = {
   AR_Status: null,
@@ -19,6 +20,7 @@ const initialState = {
   languages: [],
   countries: [],
   error: null,
+  constants: null,
 };
 
 const general = createSlice({
@@ -46,10 +48,14 @@ const general = createSlice({
     hasError(state, action) {
       state.error = action.payload;
     },
+    setConstants(state, action) {
+      state.constants = action.payload;
+    },
   },
 });
 
-export const { setPlatformConstants, setLanguages, setCountries, hasError } = general.actions;
+export const { setPlatformConstants, setLanguages, setCountries, hasError, setConstants } =
+  general.actions;
 
 export default general.reducer;
 
@@ -59,6 +65,7 @@ export function fetchPlatformConstants() {
     try {
       const response = await axiosInstance.get(endpoints.general.platformConstants);
       if (response.status === 200) {
+        dispatch(setConstants(convertData(response.data.data)));
         dispatch(setPlatformConstants(response.data.data));
         dispatch(hasError(null));
       }
@@ -100,7 +107,6 @@ export function fetchCountries() {
     }
   };
 }
-
 
 // ! conditional thunk function
 export function fetchPlatformConstantsIfNeeded(key) {

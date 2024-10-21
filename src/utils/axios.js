@@ -56,6 +56,8 @@ export const endpoints = {
     sharedUrl: '/recruiter/api/v1/interviews/shared',
     resume: '/recruiter/api/v1/candidates/getresumefile',
     createURL: '/recruiter/api/v1/ext_share_links/create',
+
+    candidateListBasedOnJobId: '/recruiter/api/v1/candidates/getjobpostcandidatelist',
   },
   companies: {
     list: '/recruiter/api/v1/companies/list',
@@ -91,6 +93,34 @@ export const endpoints = {
     deleteSingle: '/recruiter/api/v1/job_posts/softDelete',
     update: '/recruiter/api/v1/job_posts/partial-update',
     insights: 'recruiter/api/v1/job_posts/insights',
+
+    // create apis
+    personalDetail: '/recruiter/api/v1/candidates/uploadpersonaldetails',
+    profesionalDetail: '/recruiter/api/v1/candidates/uploadprofessionaldetails',
+    workExperienceDetail: '/recruiter/api/v1/candidates/uploadworkexp',
+    educationDetail: '/recruiter/api/v1/candidates/uploadedudetails',
+    certificationDetail: '/recruiter/api/v1/candidates/uploadcertificationdetails',
+    socialProfileDetail: '/recruiter/api/v1/candidates/uploadsocialprofiles',
+    locationList: '/recruiter/api/v1/locations/list',
+    locationSearch: '/recruiter/api/v1/locations/search',
+    collegeSearch: '/recruiter/api/v1/universities/search',
+
+    // edit apis
+    editResume: '/recruiter/api/v1/candidates/updateresume',
+    editPersonalDetail: '/recruiter/api/v1/candidates/updatepersonaldetails',
+    editProfessionalDetail: '/recruiter/api/v1/candidates/updateprofessionaldetails',
+    editWorkExperienceDetail: '/recruiter/api/v1/candidates/updateworkexp',
+    editEducationDetail: '/recruiter/api/v1/candidates/updateedudetails',
+    editCertificationDetail: '/recruiter/api/v1/candidates/updatecertificationdetails',
+    editSocialProfileDetail: '/recruiter/api/v1/candidates/updatesocialprofiles',
+
+    // get apis
+    getPersonalDetail: '/recruiter/api/v1/candidates/getpersonaldetails',
+    getProfessionalDetail: '/recruiter/api/v1/candidates/getprofessionaldetails',
+    getWorkExperienceDetail: '/recruiter/api/v1/candidates/getworkexp',
+    getEducationDetail: '/recruiter/api/v1/candidates/getedudetails',
+    getCertificationDetail: '/recruiter/api/v1/candidates/getcertificationdetails',
+    getSocialProfileDetail: '/recruiter/api/v1/candidates/getsocialprofiles',
   },
   notification: {
     list: '/recruiter/api/v1/notifications/list',

@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axiosInstance, { endpoints } from 'src/utils/axios';
+import { getPersonlDetails, getProfessionalDetails } from 'src/utils/helperFunctions';
 
+const candidateAdditionalData = {
+  workExperienceData: [],
+  educationData: [],
+  certificationsData: [],
+  socialProfilesData: [],
+};
 const initialState = {
   mainStepsDone: [],
   mainCurrentStep: null,
@@ -21,10 +28,19 @@ const initialState = {
   perPage: 0,
   pageCount: 0,
   currentPage: 0,
+  isLoading: false,
   jobPostDeleteCount: 0,
   individualJobPostData: null,
   candidateInsightData: null,
   dashboardFilter: {},
+
+  candidateIdData: null,
+  editCandidateId: '',
+  candidateData: null,
+  locationData: [],
+  foundLocationData: [],
+  collegeData: [],
+  candidateAdditionalData,
 };
 
 const jobpost = createSlice({
@@ -76,6 +92,10 @@ const jobpost = createSlice({
     // to remove jobData
     removeJobData(state, action) {
       state.jobData = action.payload;
+    },
+
+    resetAdditionalCandidateAdditionalData(state, action) {
+      state.candidateAdditionalData = candidateAdditionalData;
     },
 
     // to add jobpost
@@ -143,6 +163,69 @@ const jobpost = createSlice({
     setCandidateInsightData(state, action) {
       state.candidateInsightData = action.payload;
     },
+
+    setCandidateIdData(state, action) {
+      state.candidateIdData = action.payload;
+    },
+    setCandidateData(state, action) {
+      state.candidateData = { ...state.candidateData, ...action.payload };
+    },
+    resetCandidateData(state, action) {
+      state.candidateData = null;
+    },
+    setFoundLocationData(state, action) {
+      state.foundLocationData = action.payload;
+    },
+    setLocationData(state, action) {
+      state.locationData = action.payload;
+    },
+    setCandidateAdditionalData(state, action) {
+      switch (action.payload.type) {
+        case 'workExperience':
+          state.candidateAdditionalData.workExperienceData.push(action.payload.data);
+          break;
+        case 'education':
+          state.candidateAdditionalData.educationData.push(action.payload.data);
+          break;
+        case 'certifications':
+          state.candidateAdditionalData.certificationsData.push(action.payload.data);
+          break;
+        case 'socialProfiles':
+          state.candidateAdditionalData.socialProfilesData.push(action.payload.data);
+          break;
+        default:
+          break;
+      }
+    },
+
+    setCandidateResultAdditionalData(state, action) {
+      switch (action.payload.type) {
+        case 'workExperience':
+          state.candidateAdditionalData.workExperienceData = action.payload.data;
+          break;
+        case 'education':
+          state.candidateAdditionalData.educationData = action.payload.data;
+          break;
+        case 'certifications':
+          state.candidateAdditionalData.certificationsData = action.payload.data;
+          break;
+        case 'socialProfiles':
+          state.candidateAdditionalData.socialProfilesData = action.payload.data;
+          break;
+        default:
+          break;
+      }
+    },
+
+    setCollegeData(state, action) {
+      state.collegeData = action.payload;
+    },
+    setEditCandidateId(state, action) {
+      state.editCandidateId = action.payload;
+    },
+    setIsLoading(state, action) {
+      state.isLoading = action.payload;
+    },
   },
 });
 
@@ -152,6 +235,7 @@ export const {
   setMainCurrentSteps,
   setPreferanceSteps,
   removeLastPreferanceStep,
+  resetAdditionalCandidateAdditionalData,
   setPreferanceCurrentSteps,
   setJobData,
   removeJobData,
@@ -165,8 +249,18 @@ export const {
   setIndividualJobPostData,
   setTechSkills,
   setJobPostDataToEdit,
+  setCandidateResultAdditionalData,
   setCandidateInsightData,
   setDashboardFilter,
+  setCandidateIdData,
+  setCandidateData,
+  resetCandidateData,
+  setFoundLocationData,
+  setLocationData,
+  setCandidateAdditionalData,
+  setCollegeData,
+  setEditCandidateId,
+  setIsLoading,
 } = jobpost.actions;
 
 export default jobpost.reducer;
@@ -188,7 +282,6 @@ export function createJobPost(payload) {
 
 // ! function to get all job post
 export function fetchAllJobPost(page, rowsPerPage, status, companyId, id_str) {
-  page += 1;
   const payload = {
     query: { isActive: true, isDeleted: false },
     options: {
@@ -364,6 +457,468 @@ export function refreshIndividualJobPostData(id) {
       }
     } catch (error) {
       dispatch(hasError(error));
+    }
+  };
+}
+
+export function addCandidatePersonalDetails(payload) {
+  return async function addCandidatePersonalDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(endpoints.jobPost.personalDetail, payload);
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+        dispatch(setCandidateIdData(response.data.data));
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function addCandidateProfessionalDetails(id, payload) {
+  return async function addCandidateProfessionalDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(
+        `${endpoints.jobPost.profesionalDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function addWorkExperienceDetails(id, payload) {
+  return async function addWorkExperienceDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(
+        `${endpoints.jobPost.workExperienceDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function addEducationDetails(id, payload) {
+  return async function addEducationDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(
+        `${endpoints.jobPost.educationDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function addCertificationsDetails(id, payload) {
+  return async function addCertificationsDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(
+        `${endpoints.jobPost.certificationDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function addSocialProfilesDetails(id, payload) {
+  return async function addSocialProfilesDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(
+        `${endpoints.jobPost.socialProfileDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+// edit apis
+
+export function editCandidateResume(id, payload) {
+  return async function addCandidatePersonalDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.put(`${endpoints.jobPost.editResume}/${id}`, payload);
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function editPersonalDetails(id, payload) {
+  return async function editPersonalDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.put(
+        `${endpoints.jobPost.editPersonalDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+export function editProfessionalDetails(id, payload) {
+  return async function editProfessionalDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.put(
+        `${endpoints.jobPost.editProfessionalDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function editWorkExperienceDetails(id, payload) {
+  return async function editWorkExperienceDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.put(
+        `${endpoints.jobPost.editWorkExperienceDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function editEducationDetails(id, payload) {
+  return async function editEducationDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.put(
+        `${endpoints.jobPost.editEducationDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function editCertificationDetails(id, payload) {
+  return async function editCertificationDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.put(
+        `${endpoints.jobPost.editCertificationDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function editSocialProfileDetails(id, payload) {
+  return async function editSocialProfileDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.put(
+        `${endpoints.jobPost.editSocialProfileDetail}/${id}`,
+        payload
+      );
+      if (response.status === 200) {
+        if (response.data.status === 'FAILURE') {
+          dispatch(hasError(response.data));
+          return;
+        }
+
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+// get details
+export function getCandidatePersonalDetails(id, payload) {
+  return async function getCandidatePersonalDetailsThunk(dispatch, getState) {
+    try {
+      dispatch(setIsLoading(true));
+      const response = await axiosInstance.get(`${endpoints.jobPost.getPersonalDetail}/${id}`);
+
+      if (response.status === 200) {
+        const foundData = response.data.data;
+        const personalDetails = getPersonlDetails(foundData, getState);
+        dispatch(setCandidateData(personalDetails));
+        dispatch(hasError(null));
+        dispatch(setIsLoading(false));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+      dispatch(setIsLoading(false));
+    }
+  };
+}
+
+// get professional details
+export function getCandidateProfessionalDetails(id, payload) {
+  return async function getCandidateProfessionalDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.get(`${endpoints.jobPost.getProfessionalDetail}/${id}`);
+      if (response.status === 200) {
+        const foundData = response.data.data;
+        const personalDetails = getProfessionalDetails(foundData, getState);
+        dispatch(setCandidateData(personalDetails));
+        dispatch(hasError(null));
+        dispatch(setIsLoading(false));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+      dispatch(setIsLoading(false));
+    }
+  };
+}
+
+// get work experience details
+export function getCandidateWorkExperienceDetails(id, payload) {
+  return async function getCandidateWorkExperienceDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.get(
+        `${endpoints.jobPost.getWorkExperienceDetail}/${id}`
+      );
+      if (response.status === 200) {
+        const foundData = response.data.data.candidateExperience;
+        dispatch(
+          setCandidateResultAdditionalData({
+            type: 'workExperience',
+            data: foundData,
+          })
+        );
+
+        dispatch(hasError(null));
+        dispatch(setIsLoading(false));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+      dispatch(setIsLoading(false));
+    }
+  };
+}
+
+// get education details
+export function getCandidateWorkEducationDetails(id, payload) {
+  return async function getCandidateWorkEducationDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.get(`${endpoints.jobPost.getEducationDetail}/${id}`);
+      if (response.status === 200) {
+        const foundData = response.data.data ?? [];
+
+        dispatch(
+          setCandidateResultAdditionalData({
+            type: 'education',
+            data: foundData,
+          })
+        );
+
+        dispatch(hasError(null));
+        dispatch(setIsLoading(false));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+      dispatch(setIsLoading(false));
+    }
+  };
+}
+
+// get certification details
+export function getCandidateCertificationDetails(id, payload) {
+  return async function getCandidateCertificationDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.get(`${endpoints.jobPost.getCertificationDetail}/${id}`);
+      if (response.status === 200) {
+        const foundData = response.data.data ?? [];
+
+        dispatch(
+          setCandidateResultAdditionalData({
+            type: 'certifications',
+            data: foundData,
+          })
+        );
+
+        dispatch(hasError(null));
+        dispatch(setIsLoading(false));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+      dispatch(setIsLoading(false));
+    }
+  };
+}
+
+// get social  details
+export function getSocialProfilesDetails(id, payload) {
+  return async function getSocialProfilesDetailsThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.get(`${endpoints.jobPost.getSocialProfileDetail}/${id}`);
+      if (response.status === 200) {
+        const foundData = response.data.data ?? [];
+        dispatch(
+          setCandidateResultAdditionalData({
+            type: 'socialProfiles',
+            data: foundData,
+          })
+        );
+
+        dispatch(hasError(null));
+        dispatch(setIsLoading(false));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+      dispatch(setIsLoading(false));
+    }
+  };
+}
+
+export function getLocationData() {
+  const payload = {
+    query: {
+      isActive: true,
+    },
+    options: {
+      select: ['city', 'state', 'country', 'id'],
+      page: 1,
+      paginate: 1000000000,
+    },
+    isCountOnly: false,
+  };
+  return async function getLocationDataThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(endpoints.jobPost.locationList, payload);
+      if (response.status === 200) {
+        dispatch(setLocationData(response.data.data.data ?? []));
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function searchLocation(name) {
+  const payload = {
+    query: {
+      isActive: true,
+      name,
+    },
+    options: {
+      select: ['city', 'state', 'country', 'id'],
+      page: 1,
+      paginate: 1000,
+    },
+    isCountOnly: false,
+  };
+
+  return async function searchLocationThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(endpoints.jobPost.locationSearch, payload);
+      if (response.status === 200) {
+        dispatch(setFoundLocationData(response.data.data ?? []));
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
+    }
+  };
+}
+
+export function searchCollege(name) {
+  const payload = {
+    query: {
+      isActive: true,
+      name,
+    },
+    options: {
+      select: [],
+      page: 1,
+      paginate: 1000,
+    },
+    isCountOnly: false,
+  };
+
+  return async function searchCollegeThunk(dispatch, getState) {
+    try {
+      const response = await axiosInstance.post(endpoints.jobPost.collegeSearch, payload);
+      if (response.status === 200) {
+        dispatch(setCollegeData(response.data.data ?? []));
+        dispatch(hasError(null));
+      }
+    } catch (err) {
+      dispatch(hasError(err));
     }
   };
 }

@@ -96,6 +96,11 @@ export const navData = [
         path: paths.admin.companies,
         icon: ICONS.company,
       },
+      {
+        title: 'Talent Vault',
+        path: paths.admin.talentVault,
+        icon: ICONS.analytics,
+      },
       // {
       //   title: 'Subscription Plans',
       //   path: paths.admin.subscription,

@@ -1,5 +1,8 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import {
   Avatar,
   Box,
@@ -12,16 +15,21 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import { Iconify } from 'src/components/iconify';
-import { Label } from 'src/components/label';
-import { useBoolean } from 'src/hooks/use-boolean';
-import { DashboardContent } from 'src/layouts/dashboard';
-import { fetchOrganizationList } from 'src/redux/slices/organization';
+
 import { paths } from 'src/routes/paths';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
 import { finderFunction } from 'src/utils/helperFunctions';
+
+import { DashboardContent } from 'src/layouts/dashboard';
+import { fetchCountries } from 'src/redux/slices/general';
+import { fetchOrganizationList } from 'src/redux/slices/organization';
+
+import { Label } from 'src/components/label';
+import { Iconify } from 'src/components/iconify';
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
+
 import { OrganizationQuickEditForm } from '../organization-quick-edit-form';
 
 // ----------------------------------------------------------------------

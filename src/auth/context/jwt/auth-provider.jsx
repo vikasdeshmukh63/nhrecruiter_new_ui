@@ -6,6 +6,8 @@ import { useSetState } from 'src/hooks/use-set-state';
 
 import axios, { endpoints } from 'src/utils/axios';
 
+import { dispatch as reduxDispatch } from 'src/redux/store/store';
+
 import { STORAGE_KEY } from './constant';
 import { AuthContext } from '../auth-context';
 import { setSession, isValidToken } from './utils';
@@ -31,6 +33,8 @@ export function AuthProvider({ children }) {
 
         setState({ user: { ...user, token }, loading: false });
       } else {
+        reduxDispatch({ type: 'LOG_OUT' });
+
         setState({ user: null, loading: false });
       }
     } catch (error) {

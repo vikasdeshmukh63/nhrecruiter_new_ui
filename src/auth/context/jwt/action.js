@@ -2,6 +2,8 @@
 
 import axios, { endpoints } from 'src/utils/axios';
 
+import { dispatch as reduxDispatch } from 'src/redux/store/store';
+
 import { setSession } from './utils';
 import { STORAGE_KEY } from './constant';
 
@@ -9,6 +11,8 @@ import { STORAGE_KEY } from './constant';
  * Sign in
  *************************************** */
 export const signInWithPassword = async ({ username, password }) => {
+  reduxDispatch({ type: 'LOG_OUT' });
+
   try {
     const params = { username, password };
 
