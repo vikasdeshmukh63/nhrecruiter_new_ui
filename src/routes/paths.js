@@ -18,7 +18,7 @@ export const paths = {
       login: `${ROOTS.AUTH}/sign-in`,
       register: `${ROOTS.AUTH}/sign-up`,
       org: `${ROOTS.AUTH}/register`,
-      orgSuccess: `${ROOTS.AUTH}/register/success`,
+      orgSuccess: `${ROOTS.AUTH}/sign-up/success`,
       collegeSuccess: `${ROOTS.AUTH}/college/register/success`,
     },
   },

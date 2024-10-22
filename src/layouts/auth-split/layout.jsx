@@ -57,7 +57,7 @@ export function AuthSplitLayout({ sx, section, children, header }) {
                   Need help?
                 </Link>
                 {/* -- Settings button -- */}
-                <SettingsButton />
+                {/* <SettingsButton /> */}
               </Box>
             ),
           }}

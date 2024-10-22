@@ -59,3 +59,6 @@ export const CONFIG = {
     key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
   },
 };
+
+// ROOT PATH AFTER LOGIN SUCCESSFUL
+export const PATH_AFTER_LOGIN = paths.dashboard.root; // as '/dashboard'
