@@ -1,6 +1,9 @@
 'use client';
 
+import { useSelector } from 'react-redux';
+
 import Box from '@mui/material/Box';
+import { Avatar } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { useTheme } from '@mui/material/styles';
 import { iconButtonClasses } from '@mui/material/IconButton';
@@ -23,6 +26,7 @@ import { _workspaces } from '../config-nav-workspace';
 import { MenuButton } from '../components/menu-button';
 import { LayoutSection } from '../core/layout-section';
 import { HeaderSection } from '../core/header-section';
+import NovelHireCopyRight from './novelhire-copy-right';
 import { StyledDivider, useNavColorVars } from './styles';
 import { AccountDrawer } from '../components/account-drawer';
 import { SettingsButton } from '../components/settings-button';
@@ -31,9 +35,6 @@ import { ContactsPopover } from '../components/contacts-popover';
 import { WorkspacesPopover } from '../components/workspaces-popover';
 import { navData as dashboardNavData } from '../config-nav-dashboard';
 import { NotificationsDrawer } from '../components/notifications-drawer';
-import NovelHireCopyRight from './novelhire-copy-right';
-import { useSelector } from 'react-redux';
-import { Avatar } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
