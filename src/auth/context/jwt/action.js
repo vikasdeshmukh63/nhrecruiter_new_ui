@@ -31,6 +31,29 @@ export const signInWithPassword = async ({ username, password }) => {
   }
 };
 
+export const signInWithoutPassword = async (username, router) => {
+  reduxDispatch({ type: 'LOG_OUT' });
+
+  try {
+    const data = {
+      username,
+    };
+
+    const response = await axios.post(endpoints.auth.loginWithoutPassword, data);
+    const { isverified } = response.data.data;
+    const { token } = response.data.data;
+
+    if (isverified) {
+      setSession(token);
+    } else {
+      router.push('/auth/verify');
+    }
+  } catch (error) {
+    console.error('Error during sign in:', error);
+    throw error;
+  }
+};
+
 /** **************************************
  * Sign up
  *************************************** */

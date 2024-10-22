@@ -1,82 +1,135 @@
-'use client';
-
+import { toast } from 'sonner';
 import { m } from 'framer-motion';
-import { useState, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect, useCallback } from 'react';
 
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Tabs from '@mui/material/Tabs';
+import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
 import Badge from '@mui/material/Badge';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
-import SvgIcon from '@mui/material/SvgIcon';
+import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
 import { useBoolean } from 'src/hooks/use-boolean';
+import { useResponsive } from 'src/hooks/use-responsive';
+
+import { getNotification, changeNotificationStatusBulk } from 'src/redux/slices/notification';
 
 import { Label } from 'src/components/label';
 import { Iconify } from 'src/components/iconify';
 import { varHover } from 'src/components/animate';
 import { Scrollbar } from 'src/components/scrollbar';
-import { CustomTabs } from 'src/components/custom-tabs';
 
-import { NotificationItem } from './notification-item';
+import NotificationList from './notification-list';
 
 // ----------------------------------------------------------------------
 
 const TABS = [
-  { value: 'all', label: 'All', count: 22 },
-  { value: 'unread', label: 'Unread', count: 12 },
-  { value: 'archived', label: 'Archived', count: 10 },
+  {
+    value: 'all',
+    label: 'All',
+    count: 22,
+  },
+  {
+    value: 'unread',
+    label: 'Unread',
+    count: 12,
+  },
+  {
+    value: 'archived',
+    label: 'Archived',
+    count: 10,
+  },
 ];
 
 // ----------------------------------------------------------------------
 
-export function NotificationsDrawer({ data = [], sx, ...other }) {
-  const drawer = useBoolean();
-
+export function NotificationsDrawer() {
   const [currentTab, setCurrentTab] = useState('all');
+  const [notificationCount, setNotificationCount] = useState(0);
+  const [click, setClick] = useState(false);
 
+  // redux for extracting notifications
+  const dispatch = useDispatch();
+  const { notifications, error } = useSelector((state) => state.notification);
+
+  // custom hooks
+  const drawer = useBoolean();
+  const smUp = useResponsive('up', 'sm');
+
+  // changing tab disabled
   const handleChangeTab = useCallback((event, newValue) => {
     setCurrentTab(newValue);
   }, []);
 
-  const [notifications, setNotifications] = useState(data);
+  // to count total unread notifications
+  const totalUnRead = useCallback(() => {
+    setNotificationCount(0);
+    notifications.forEach((item) => {
+      if (item.status === 3) {
+        setNotificationCount((prevCount) => prevCount + 1);
+      }
+    });
+  }, [notifications]);
 
-  const totalUnRead = notifications.filter((item) => item.isUnRead === true).length;
-
-  const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map((notification) => ({ ...notification, isUnRead: false })));
+  const handleMarkAllAsRead = async () => {
+    if (notifications.length !== 0) {
+      await dispatch(changeNotificationStatusBulk());
+      await dispatch(getNotification());
+      setClick(true);
+    } else {
+      toast.error('No notifications to mark as read');
+    }
   };
 
+  useEffect(() => {
+    if (click && error) {
+      toast.error('Something Went Wrong', { variant: 'error' });
+      setClick(false);
+    }
+    if (click && !error) {
+      setClick(false);
+    }
+  }, [click, error]);
+
+  // to fetch total notifications
+  useEffect(() => {
+    totalUnRead();
+  }, [notifications, totalUnRead]);
+
+  useEffect(() => {
+    if (notifications.length === 0) {
+      dispatch(getNotification());
+    }
+  }, [dispatch, notifications.length]);
   const renderHead = (
     <Stack direction="row" alignItems="center" sx={{ py: 2, pl: 2.5, pr: 1, minHeight: 68 }}>
       <Typography variant="h6" sx={{ flexGrow: 1 }}>
         Notifications
       </Typography>
 
-      {!!totalUnRead && (
-        <Tooltip title="Mark all as read">
-          <IconButton color="primary" onClick={handleMarkAllAsRead}>
-            <Iconify icon="eva:done-all-fill" />
-          </IconButton>
-        </Tooltip>
+      <Tooltip title="Mark all as read">
+        <IconButton color="primary" onClick={handleMarkAllAsRead}>
+          <Iconify icon="eva:done-all-fill" />
+        </IconButton>
+      </Tooltip>
+
+      {!smUp && (
+        <IconButton onClick={drawer.onFalse}>
+          <Iconify icon="mingcute:close-line" />
+        </IconButton>
       )}
-
-      <IconButton onClick={drawer.onFalse} sx={{ display: { xs: 'inline-flex', sm: 'none' } }}>
-        <Iconify icon="mingcute:close-line" />
-      </IconButton>
-
-      <IconButton>
-        <Iconify icon="solar:settings-bold-duotone" />
-      </IconButton>
     </Stack>
   );
 
   const renderTabs = (
-    <CustomTabs variant="fullWidth" value={currentTab} onChange={handleChangeTab}>
+    <Tabs value={currentTab} onChange={handleChangeTab}>
       {TABS.map((tab) => (
         <Tab
           key={tab.value}
@@ -95,20 +148,21 @@ export function NotificationsDrawer({ data = [], sx, ...other }) {
               {tab.count}
             </Label>
           }
+          sx={{
+            '&:not(:last-of-type)': {
+              mr: 3,
+            },
+          }}
         />
       ))}
-    </CustomTabs>
+    </Tabs>
   );
 
   const renderList = (
     <Scrollbar>
-      <Box component="ul">
-        {notifications?.map((notification) => (
-          <Box component="li" key={notification.id} sx={{ display: 'flex' }}>
-            <NotificationItem notification={notification} />
-          </Box>
-        ))}
-      </Box>
+      <List disablePadding>
+        <NotificationList />
+      </List>
     </Scrollbar>
   );
 
@@ -119,23 +173,11 @@ export function NotificationsDrawer({ data = [], sx, ...other }) {
         whileTap="tap"
         whileHover="hover"
         variants={varHover(1.05)}
+        color={drawer.value ? 'primary' : 'default'}
         onClick={drawer.onTrue}
-        sx={sx}
-        {...other}
       >
-        <Badge badgeContent={totalUnRead} color="error">
-          <SvgIcon>
-            {/* https://icon-sets.iconify.design/solar/bell-bing-bold-duotone/ */}
-            <path
-              fill="currentColor"
-              d="M18.75 9v.704c0 .845.24 1.671.692 2.374l1.108 1.723c1.011 1.574.239 3.713-1.52 4.21a25.794 25.794 0 0 1-14.06 0c-1.759-.497-2.531-2.636-1.52-4.21l1.108-1.723a4.393 4.393 0 0 0 .693-2.374V9c0-3.866 3.022-7 6.749-7s6.75 3.134 6.75 7"
-              opacity="0.5"
-            />
-            <path
-              fill="currentColor"
-              d="M12.75 6a.75.75 0 0 0-1.5 0v4a.75.75 0 0 0 1.5 0zM7.243 18.545a5.002 5.002 0 0 0 9.513 0c-3.145.59-6.367.59-9.513 0"
-            />
-          </SvgIcon>
+        <Badge badgeContent={notificationCount} color="error">
+          <Iconify icon="solar:bell-bing-bold-duotone" width={24} />
         </Badge>
       </IconButton>
 
@@ -143,18 +185,36 @@ export function NotificationsDrawer({ data = [], sx, ...other }) {
         open={drawer.value}
         onClose={drawer.onFalse}
         anchor="right"
-        slotProps={{ backdrop: { invisible: true } }}
-        PaperProps={{ sx: { width: 1, maxWidth: 420 } }}
+        slotProps={{
+          backdrop: { invisible: true },
+        }}
+        PaperProps={{
+          sx: { width: 1, maxWidth: 420 },
+        }}
       >
         {renderHead}
 
-        {renderTabs}
+        <Divider />
+
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ pl: 2.5, pr: 1 }}
+        >
+          {/* {renderTabs} */}
+          {/* <IconButton onClick={handleMarkAllAsRead}>
+            <Iconify icon="solar:settings-bold-duotone" />
+          </IconButton> */}
+        </Stack>
+
+        <Divider />
 
         {renderList}
 
         <Box sx={{ p: 1 }}>
           <Button fullWidth size="large">
-            View all
+            View All
           </Button>
         </Box>
       </Drawer>

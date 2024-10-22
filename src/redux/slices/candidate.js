@@ -154,33 +154,43 @@ export function getInterviewStatusEvent(id, payload) {
 }
 
 // ! function to get candidates based on the jobID and search query
-export function getCandidatesBasedOnJobId(id, query, filter, filterValues) {
+export function getCandidatesBasedOnJobId(id, page, rowsPerPage) {
+  page += 1;
   const payload = {
     query: {
-      isactive: true,
-      isDeleted: false,
-      jpid: id,
+      isActive: true,
+      jp_id: id,
     },
     options: {
-      select: [],
-      page: 1,
-      paginate: 100,
+      sort: {
+        createdAt: -1,
+      },
+      select: ['id', 'status', 'screening_score', 'interview_score', 'isDeleted', 'isActive'],
+      page,
+      paginate: rowsPerPage,
+      include: [
+        {
+          model: 'org_candidates',
+          as: '_org_cand_id',
+          include: [
+            {
+              model: 'candidates',
+              as: '_cand_id',
+            },
+          ],
+        },
+      ],
     },
     isCountOnly: false,
   };
-  if (query !== undefined) {
-    payload.query.query = query;
-  }
-
-  if (filter !== undefined && filterValues !== undefined) {
-    payload.query.filter = filter;
-    payload.query.filterValues = filterValues;
-  }
 
   return async function getCandidatesBasedOnJobIdThunk(dispatch) {
     try {
       dispatch(setLoading(true));
-      const response = await axiosInstance.post(endpoints.candidate.candidateOnJobId, payload);
+      const response = await axiosInstance.post(
+        endpoints.candidate.candidateListBasedOnJobId,
+        payload
+      );
       if (response.status === 200) {
         dispatch(setCandidatesList(response.data.data));
         dispatch(setPagination(response.data.data));
@@ -310,7 +320,7 @@ export function getCandidateResume(payload, query) {
         params: query,
       });
       if (response.status === 200) {
-        dispatch(setCandidateResume(response.data.data));
+        dispatch(setCandidateInterviewData(response.data.data));
         dispatch(hasError(null));
       }
     } catch (err) {

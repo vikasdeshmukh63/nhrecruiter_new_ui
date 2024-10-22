@@ -1,23 +1,20 @@
 'use client';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { Grid } from "@mui/material";
+import { Grid } from '@mui/material';
 
-import { paths } from "src/routes/paths";
+import { paths } from 'src/routes/paths';
 
-import { DashboardContent } from "src/layouts/dashboard";
+import { DashboardContent } from 'src/layouts/dashboard';
 
-import EmptyContent from "src/components/empty-content";
-import CustomBreadcrumbs from "src/components/custom-breadcrumbs";
+import EmptyContent from 'src/components/empty-content';
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
 
-import OrderSummery from "../order-summery";
-import CartListView from "../cart-list-view";
-
-
+import OrderSummery from '../order-summery';
+import CartListView from '../cart-list-view';
 
 const ViewCart = () => {
-
   // extracting data from redux
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -30,7 +27,7 @@ const ViewCart = () => {
       }}
     />
   ) : (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <CustomBreadcrumbs
         heading="Buy Credits"
         links={[

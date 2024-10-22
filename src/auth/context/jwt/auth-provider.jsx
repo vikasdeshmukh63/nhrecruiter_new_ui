@@ -29,7 +29,7 @@ export function AuthProvider({ children }) {
 
         const res = await axios.post(endpoints.auth.me);
 
-        const { user } = res.data;
+        const user = res.data.data;
 
         setState({ user: { ...user, token }, loading: false });
       } else {

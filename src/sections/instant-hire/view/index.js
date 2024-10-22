@@ -1,0 +1,1 @@
+export {default as InstantHire} from "./view-instant-hire"

@@ -7,8 +7,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 
 import { countries } from 'src/assets/data';
 
-import { Iconify } from '../iconify';
-
+import { Iconify } from 'src/components/iconify';
 
 // ----------------------------------------------------------------------
 
@@ -29,6 +28,45 @@ export function RHFAutocomplete({
       name={name}
       control={control}
       render={({ field, fieldState: { error } }) => {
+        if (type === 'multipleSelect') {
+          return (
+            <Autocomplete
+              {...field}
+              multiple
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              onChange={(event, newValue) => {
+                setValue(name, newValue, { shouldValidate: true });
+              }}
+              onKeyUp={handleSearch}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder={label}
+                  error={!!error}
+                  helperText={error ? error.message : helperText}
+                  inputProps={{
+                    ...params.inputProps,
+                    autoComplete: 'new-password',
+                  }}
+                />
+              )}
+              renderTags={(value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    color="info"
+                    variant="soft"
+                    label={other.getOptionLabel(option)}
+                    {...getTagProps({ index })}
+                  />
+                ))
+              }
+              renderOption={(props, option, { selected }) => (
+                <li {...props}>{other.getOptionLabel(option)}</li>
+              )}
+              {...other}
+            />
+          );
+        }
         if (type === 'country') {
           return (
             <Autocomplete

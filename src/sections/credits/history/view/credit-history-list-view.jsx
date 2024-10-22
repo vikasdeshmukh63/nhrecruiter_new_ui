@@ -5,7 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useCallback, useEffect, useState } from 'react';
 
 import { alpha } from '@mui/material/styles';
-import { Card, IconButton, Tab, Table, TableBody, TableContainer, Tabs, Tooltip } from '@mui/material';
+import {
+  Card,
+  IconButton,
+  Tab,
+  Table,
+  TableBody,
+  TableContainer,
+  Tabs,
+  Tooltip,
+} from '@mui/material';
 
 import { paths } from 'src/routes/paths';
 
@@ -18,7 +27,14 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import { useSettingsContext } from 'src/components/settings';
 import CustomBreadcrumbs from 'src/components/custom-breadcrumbs';
-import { getComparator, TableHeadCustom, TableNoData, TablePaginationCustom, TableSelectedAction, useTable } from 'src/components/table';
+import {
+  getComparator,
+  TableHeadCustom,
+  TableNoData,
+  TablePaginationCustom,
+  TableSelectedAction,
+  useTable,
+} from 'src/components/table';
 
 import { CreditHistoryTableRow } from '../credit-history-table-row';
 import { CreditHistoryTableFiltersResult } from '../credit-history-table-filters-result';
@@ -107,7 +123,7 @@ export default function HistoryListView() {
   }, [dispatch, status, table.page, table.rowsPerPage]);
 
   return (
-    <DashboardContent maxWidth="xl">
+    <DashboardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
       <CustomBreadcrumbs
         heading="Credits History"
         links={[

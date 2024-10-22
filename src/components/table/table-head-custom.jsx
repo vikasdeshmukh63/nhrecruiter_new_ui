@@ -1,8 +1,8 @@
-
 import Box from '@mui/material/Box';
 import TableRow from '@mui/material/TableRow';
-import TableCell from '@mui/material/TableCell';
+import Checkbox from '@mui/material/Checkbox';
 import TableHead from '@mui/material/TableHead';
+import TableCell from '@mui/material/TableCell';
 import TableSortLabel from '@mui/material/TableSortLabel';
 
 // ----------------------------------------------------------------------
@@ -22,15 +22,32 @@ const visuallyHidden = {
 // ----------------------------------------------------------------------
 
 export default function TableHeadCustom({
+  sx,
   order,
+  onSort,
   orderBy,
   headLabel,
-  onSort,
-  sx,
+  rowCount = 0,
+  numSelected = 0,
+  onSelectAllRows,
 }) {
   return (
     <TableHead sx={sx}>
       <TableRow>
+        {onSelectAllRows && (
+          <TableCell padding="checkbox">
+            <Checkbox
+              indeterminate={!!numSelected && numSelected < rowCount}
+              checked={!!rowCount && numSelected === rowCount}
+              onChange={(event) => onSelectAllRows(event.target.checked)}
+              inputProps={{
+                name: 'select-all-rows',
+                'aria-label': 'select all rows',
+              }}
+            />
+          </TableCell>
+        )}
+
         {headLabel.map((headCell) => (
           <TableCell
             key={headCell.id}

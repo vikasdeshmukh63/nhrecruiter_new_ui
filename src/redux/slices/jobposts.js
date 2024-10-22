@@ -113,7 +113,7 @@ const jobpost = createSlice({
 
     // to set search jobdata
     setJobPostsForSearch(state, action) {
-      state.jobPosts = action.payload.data;
+      state.jobPosts = action.payload;
     },
 
     // has error
@@ -334,7 +334,7 @@ export function searchJobPost(title) {
     try {
       const response = await axiosInstance.post(endpoints.jobPost.search, payload);
       if (response.status === 200) {
-        dispatch(setJobPostsForSearch(response.data));
+        dispatch(setJobPostsForSearch(response.data.data ?? []));
         dispatch(hasError(null));
       }
     } catch (error) {
