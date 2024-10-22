@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Unstable_Grid2';
 import Typography from '@mui/material/Typography';
-import { MenuItem, ButtonBase, CardHeader, Stack } from '@mui/material';
+import { Stack, MenuItem, ButtonBase, CardHeader } from '@mui/material';
 
 import { graphDataExtractor } from 'src/utils/helperFunctions';
 
-import { useAuthContext } from 'src/auth/hooks';
 import { fetchMasters } from 'src/redux/slices/masters';
-import { getUserData } from 'src/redux/slices/userAccount';
+import { DashboardContent } from 'src/layouts/dashboard';
+import { fetchOrganizationList } from 'src/redux/slices/organization';
 import {
   setJobPosts,
   setDashboardFilter,
@@ -33,13 +33,13 @@ import {
 } from 'src/redux/slices/dashboard';
 
 import { Iconify } from 'src/components/iconify';
-import { CustomPopover, usePopover } from 'src/components/custom-popover';
 import { useSettingsContext } from 'src/components/settings';
+import { usePopover, CustomPopover } from 'src/components/custom-popover';
 import DashboardNotification from 'src/components/dashboardNotification/dashboard-notification';
 import DashboardRecentJobPost from 'src/components/dashboardRecentJobPost/dashboard-recent-jobpost';
 import DashboardUpcomingInterviews from 'src/components/dashboardUpcomingInterviews/dashboard-upcoming-interviews';
 
-import { DashboardContent } from 'src/layouts/dashboard';
+import { useAuthContext } from 'src/auth/hooks';
 
 import DashboardBarChart from '../dashboard-bar-chart';
 import DashboardPieChart from '../dashboard-pie-chart';
@@ -138,6 +138,7 @@ export default function DashboardView() {
   // to extract data from redux
   const { graphData, cardData, error, timeDuration } = useSelector((state) => state.dashboard);
   const { IV_Status, JP_Status, languages, countries } = useSelector((state) => state.general);
+  const { organizations } = useSelector((state) => state.organization);
   const { proficiencies } = useSelector((state) => state.masters);
 
   const platformConstants = useMemo(
@@ -195,7 +196,10 @@ export default function DashboardView() {
     if (proficiencies.length === 0) {
       dispatch(fetchMasters());
     }
-  }, [dispatch, proficiencies]);
+    if (organizations.length === 0) {
+      dispatch(fetchOrganizationList(0, 10));
+    }
+  }, [dispatch, organizations.length, proficiencies]);
 
   // on click of active job it should need to be move particular job post based on status
   const handleClickActiveJob = () => {

@@ -32,6 +32,8 @@ import { WorkspacesPopover } from '../components/workspaces-popover';
 import { navData as dashboardNavData } from '../config-nav-dashboard';
 import { NotificationsDrawer } from '../components/notifications-drawer';
 import NovelHireCopyRight from './novelhire-copy-right';
+import { useSelector } from 'react-redux';
+import { Avatar } from '@mui/material';
 
 // ----------------------------------------------------------------------
 
@@ -47,6 +49,9 @@ export function DashboardLayout({ sx, children, header, data }) {
   const layoutQuery = 'lg';
 
   const navData = data?.nav ?? dashboardNavData;
+
+  const {organizations} = useSelector((state)=>state.organization);
+  const orgImg = organizations[0]?._prof_id.path
 
   const isNavMini = settings.navLayout === 'mini';
   const isNavHorizontal = settings.navLayout === 'horizontal';
@@ -132,16 +137,9 @@ export function DashboardLayout({ sx, children, header, data }) {
                     }}
                   />
                 )}
-                {/* -- Workspace popover -- */}
-                {isNavHorizontal && (
-                  <Logo
-                    sx={{
-                      display: 'none',
-                      [theme.breakpoints.up(layoutQuery)]: {
-                        display: 'inline-flex',
-                      },
-                    }}
-                  />
+                {/* -- org logo -- */}
+                {isNavHorizontal && orgImg && (
+                  <Avatar src={orgImg} alt='organization logo'/>
                 )}
                 {/* <WorkspacesPopover
                   data={_workspaces}
