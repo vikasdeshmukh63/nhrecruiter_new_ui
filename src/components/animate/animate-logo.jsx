@@ -33,7 +33,7 @@ export function AnimateLogo1({ logo, sx, ...other }) {
         }}
         sx={{ display: 'inline-flex' }}
       >
-        {logo ?? <Logo disableLink width={64} height={64} />}
+        {logo ?? <Logo disableLink width={64} height={64}/>}
       </Box>
 
       <Box

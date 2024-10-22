@@ -26,7 +26,21 @@ export function SplashScreen({ portal = true, sx, ...other }) {
         }}
         {...other}
       >
-        <AnimateLogo1 />
+        <AnimateLogo1
+          logo={
+            <Box
+              component="img"
+              src="/logo/logo_single.jpg"
+              sx={{
+                width: 60,
+                m: { xs: 2, md: 2 },
+                display: 'inline-flex',
+                cursor: 'pointer',
+                ...sx,
+              }}
+            />
+          }
+        />
       </Box>
     </Box>
   );
