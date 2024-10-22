@@ -52,7 +52,7 @@ export function DashboardLayout({ sx, children, header, data }) {
   const navData = data?.nav ?? dashboardNavData;
 
   const {organizations} = useSelector((state)=>state.organization);
-  const orgImg = organizations[0]?._prof_id.path
+  const orgImg = organizations[0]?._prof_id?.path
 
   const isNavMini = settings.navLayout === 'mini';
   const isNavHorizontal = settings.navLayout === 'horizontal';
