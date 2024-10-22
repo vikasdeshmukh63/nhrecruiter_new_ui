@@ -1,6 +1,6 @@
 import { isEqual } from 'lodash';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 
 import {
@@ -29,6 +29,13 @@ import { Iconify } from 'src/components/iconify';
 import { getComparator, TableHeadCustom, TableNoData, useTable } from 'src/components/table';
 import { applyFilter } from 'src/components/phone-input/utils';
 import { Scrollbar } from 'src/components/scrollbar';
+import {
+  addCandidateToJobApplication,
+  searchCandidatesToAddInJobApplication,
+} from 'src/redux/slices/candidate';
+import { renderText } from 'src/utils/helperFunctions';
+import { toast } from 'sonner';
+import { useBoolean } from 'src/hooks/use-boolean';
 
 // table head
 const TABLE_HEAD = [
@@ -64,13 +71,18 @@ const defaultFilters = {
 const JobPostAddCandidateModal = ({ openCandidateModal }) => {
   const candidateTable = useTable();
   const [filters, setFilters] = useState(defaultFilters);
+  const [isInitiallyOpen, setIsInitiallyOpen] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const isSubmitted = useBoolean();
+  const { candidateDataToAddInJobPost, error } = useSelector((state) => state.candidate);
+  const { individualJobPostData } = useSelector((state) => state.jobpost);
 
   const dispatch = useDispatch();
   const router = useRouter();
 
   // filtered the data
   const dataFiltered = applyFilter({
-    inputData: candidateList,
+    inputData: candidateDataToAddInJobPost,
     comparator: getComparator(candidateTable.order, candidateTable.orderBy),
   });
 
@@ -81,18 +93,41 @@ const JobPostAddCandidateModal = ({ openCandidateModal }) => {
     }));
   };
 
-  const handleSelectCandidate = (row) => {
-    candidateTable.onSelectRow(row.id);
+  const handleSelectCandidate = async (row) => {
+    await dispatch(addCandidateToJobApplication(individualJobPostData?.Job_Id, row?.org_cand_id));
+    isSubmitted.onTrue();
   };
   const canReset = !isEqual(defaultFilters, filters);
 
-  const notFound = (!candidateList?.length && canReset) || !candidateList?.length;
+  const notFound =
+    (!candidateDataToAddInJobPost?.length && canReset) || !candidateDataToAddInJobPost?.length;
 
   const handleAddCandidate = async () => {
     await dispatch(resetCandidateData());
     await dispatch(resetAdditionalCandidateAdditionalData());
     router.push('/application/jobposts/add-candidate/');
   };
+
+  const handleSearchCandidate = async () => {
+    if (filters.name) {
+      await dispatch(searchCandidatesToAddInJobApplication(filters.name));
+      setIsInitiallyOpen(true);
+      setIsError(false);
+    } else {
+      setIsError(true);
+    }
+  };
+
+  useEffect(() => {
+    if (isSubmitted.value && error) {
+      toast.error(error);
+    }
+    if (isSubmitted.value && !error) {
+      toast.success('Candidate added Successfully');
+      isSubmitted.onFalse();
+      openCandidateModal.onFalse();
+    }
+  }, [error, isSubmitted, openCandidateModal]);
   return (
     <Dialog
       open={openCandidateModal.value}
@@ -120,86 +155,104 @@ const JobPostAddCandidateModal = ({ openCandidateModal }) => {
               </InputAdornment>
             ),
           }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSearchCandidate();
+            }
+          }}
         />
-        <Button
-          startIcon={<Iconify icon="bxs:file" />}
-          onClick={handleAddCandidate}
-          variant="contained"
-          color="success"
-        >
-          Add Candidate
-        </Button>
+        {!filters.name && isError && (
+          <Typography ml={1} variant="caption" color="error">
+            Please fill in at least one field
+          </Typography>
+        )}
         <Stack mt={3} direction="row" justifyContent="end" spacing={2}>
-          <Button variant="outlined" color="error">
+          <Button variant="outlined" color="error" onClick={openCandidateModal.onFalse}>
             Cancel
           </Button>
-          <Button startIcon={<Iconify icon="bxs:file" />} variant="contained" color="success">
+          <Button
+            startIcon={<Iconify icon="bxs:file" />}
+            onClick={handleSearchCandidate}
+            variant="contained"
+            color="success"
+          >
             Submit
           </Button>
         </Stack>
       </Stack>
 
-      {/* <Stack spacing={1} p={3}>
-        <Typography variant="subtitle2">Select Candidate</Typography>
-        <TableContainer sx={{ position: 'relative', overflow: 'unset', borderRadius: 2 }}>
-          <Scrollbar>
-            <Table size={candidateTable.dense ? 'small' : 'medium'} sx={{ minWidth: 400 }}>
-              <TableHeadCustom
-                order={candidateTable.order}
-                orderBy={candidateTable.orderBy}
-                headLabel={TABLE_HEAD}
-                rowCount={dataFiltered.length}
-                numSelected={candidateTable.selected.length}
-                onSort={candidateTable.onSort}
-                // onSelectAllRows={(checked) => selectAllRows(checked)}
-              />
-
-              <TableBody>
-                {dataFiltered.map((row) => (
-                  <TableRow hover key={row.id} selected={candidateTable.selected.includes(row.id)}>
-                    <TableCell> {row.name} </TableCell>
-                    <TableCell sx={{ alignItems: 'center' }}>
-                      <ListItemText
-                        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-                        primary={row?.email}
-                        secondary={row?.mobno}
-                        primaryTypographyProps={{ typography: 'body2' }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        color="info"
-                        variant="contained"
-                        startIcon={<Iconify icon="mdi:eye" />}
-                        onClick={() => handleSelectCandidate(row)}
-                      >
-                        Select
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-
-                <TableNoData
-                  imgUrl="/assets/icons/empty/ic_cart.svg"
-                  title="No candidates found with given email/mobile!"
-                  notFound={notFound}
-                  child={
-                    <Stack direction="row" spacing={3} my={4}>
-                      <Button
-                        startIcon={<Iconify icon="bxs:file" />}
-                        variant="contained"
-                        color="success"
-                      >
-                        Add Candidate
-                      </Button>
-                    </Stack>
-                  }
+      {isInitiallyOpen && (
+        <Stack spacing={1} p={3}>
+          <Typography variant="subtitle2">Select Candidate</Typography>
+          <TableContainer sx={{ position: 'relative', overflow: 'unset', borderRadius: 2 }}>
+            <Scrollbar>
+              <Table size={candidateTable.dense ? 'small' : 'medium'} sx={{ minWidth: 400 }}>
+                <TableHeadCustom
+                  order={candidateTable.order}
+                  orderBy={candidateTable.orderBy}
+                  headLabel={TABLE_HEAD}
+                  rowCount={dataFiltered.length}
+                  numSelected={candidateTable.selected.length}
+                  onSort={candidateTable.onSort}
+                  // onSelectAllRows={(checked) => selectAllRows(checked)}
                 />
-              </TableBody>
-            </Table>
-          </Scrollbar>
-        </TableContainer>
-      </Stack> */}
+
+                <TableBody>
+                  {dataFiltered.map((row) => (
+                    <TableRow
+                      hover
+                      key={row.cand_id}
+                      selected={candidateTable.selected.includes(row.cand_id)}
+                    >
+                      <TableCell>
+                        {' '}
+                        {renderText(row?.first_name)} {renderText(row?.middle_name)}{' '}
+                        {row?.last_name}
+                      </TableCell>
+                      <TableCell sx={{ alignItems: 'center' }}>
+                        <ListItemText
+                          sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                          primary={row?.email}
+                          secondary={row?.mobile_no}
+                          primaryTypographyProps={{ typography: 'body2' }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          color="info"
+                          variant="contained"
+                          startIcon={<Iconify icon="mdi:eye" />}
+                          onClick={() => handleSelectCandidate(row)}
+                        >
+                          Select
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
+                  <TableNoData
+                    imgUrl="/assets/icons/empty/ic_cart.svg"
+                    title="No candidates found with given email/mobile!"
+                    notFound={notFound}
+                    child={
+                      <Stack direction="row" spacing={3} my={4}>
+                        <Button
+                          startIcon={<Iconify icon="bxs:file" />}
+                          onClick={handleAddCandidate}
+                          variant="contained"
+                          color="success"
+                        >
+                          Add Candidate
+                        </Button>
+                      </Stack>
+                    }
+                  />
+                </TableBody>
+              </Table>
+            </Scrollbar>
+          </TableContainer>
+        </Stack>
+      )}
     </Dialog>
   );
 };

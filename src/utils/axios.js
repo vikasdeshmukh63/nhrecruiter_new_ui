@@ -58,6 +58,10 @@ export const endpoints = {
     createURL: '/recruiter/api/v1/ext_share_links/create',
 
     candidateListBasedOnJobId: '/recruiter/api/v1/candidates/getjobpostcandidatelist',
+    searchcandidateListBasedOnJobId: '/recruiter/api/v1/candidates/searchbyjobapplication',
+    searchCandidateToAddInJobPost:
+      '/recruiter/api/v1/candidates/searchtoaddcandidatetojobapplication',
+    addCandidateToJobPost: '/recruiter/api/v1/candidates/addcandidatejobapplication',
   },
   companies: {
     list: '/recruiter/api/v1/companies/list',

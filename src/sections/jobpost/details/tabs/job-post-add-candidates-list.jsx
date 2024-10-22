@@ -16,7 +16,10 @@ import {
 import { useBoolean } from 'src/hooks/use-boolean';
 
 import { dispatch } from 'src/redux/store/store';
-import { getCandidatesBasedOnJobId } from 'src/redux/slices/candidate';
+import {
+  getCandidatesBasedOnJobId,
+  searchCandidatesBasedOnJobId,
+} from 'src/redux/slices/candidate';
 
 import { Iconify } from 'src/components/iconify';
 import { ConfirmDialog } from 'src/components/custom-dialog';
@@ -88,12 +91,27 @@ const JobPostAddCandidatesList = ({ table }) => {
   }, []);
 
   useEffect(() => {
-    if (individualJobPostData?.Job_Id) {
+    let timer;
+
+    if (individualJobPostData?.Job_Id && !filters.name) {
       dispatch(
         getCandidatesBasedOnJobId(individualJobPostData?.Job_Id, table.page, table.rowsPerPage)
       );
+    } else if (individualJobPostData?.Job_Id && filters.name) {
+      timer = setTimeout(() => {
+        dispatch(
+          searchCandidatesBasedOnJobId(
+            individualJobPostData?.Job_Id,
+            filters.name,
+            table.page,
+            table.rowsPerPage
+          )
+        );
+      }, 250);
     }
-  }, [individualJobPostData?.Job_Id, table.page, table.rowsPerPage]);
+
+    return () => clearTimeout(timer);
+  }, [filters.name, individualJobPostData?.Job_Id, table.page, table.rowsPerPage]);
 
   return (
     <Card>

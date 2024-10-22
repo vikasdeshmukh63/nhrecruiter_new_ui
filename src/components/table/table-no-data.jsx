@@ -5,7 +5,7 @@ import EmptyContent from '../empty-content';
 
 // ----------------------------------------------------------------------
 
-export default function TableNoData({ notFound,title, sx }) {
+export default function TableNoData({ notFound, title, sx, child }) {
   return (
     <TableRow>
       {notFound ? (
@@ -17,7 +17,9 @@ export default function TableNoData({ notFound,title, sx }) {
               py: 10,
               ...sx,
             }}
-          />
+          >
+            {child}
+          </EmptyContent>
         </TableCell>
       ) : (
         <TableCell colSpan={12} sx={{ p: 0 }} />

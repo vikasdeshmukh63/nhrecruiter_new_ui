@@ -6,6 +6,7 @@ const initialState = {
   interviewStatus: null,
   InterviewEventData: null,
   candidatesData: [],
+  candidateDataToAddInJobPost: [],
   ivEvents: null,
   videoUrl: '',
   itemCount: 0,
@@ -92,6 +93,9 @@ const candidate = createSlice({
     setShareUrl(state, action) {
       state.shareUrl = action.payload;
     },
+    setCandidateDataToAddInJobPost(state, action) {
+      state.candidateDataToAddInJobPost = action.payload;
+    },
   },
 });
 
@@ -111,6 +115,7 @@ export const {
   setCandidateInterviewData,
   setCandidateResume,
   setShareUrl,
+  setCandidateDataToAddInJobPost,
 } = candidate.actions;
 
 export default candidate.reducer;
@@ -199,6 +204,95 @@ export function getCandidatesBasedOnJobId(id, page, rowsPerPage) {
       }
     } catch (error) {
       dispatch(setLoading(false));
+      dispatch(hasError(error));
+    }
+  };
+}
+
+export function searchCandidatesBasedOnJobId(id, query, page, rowsPerPage) {
+  page += 1;
+  const payload = {
+    query: {
+      isActive: true,
+      jp_id: id,
+      query,
+    },
+    options: {
+      select: ['id', 'status', 'screening_score', 'interview_score', 'isDeleted', 'isActive'],
+      page,
+      paginate: rowsPerPage,
+    },
+    isCountOnly: false,
+  };
+
+  return async function searchCandidatesBasedOnJobIdThunk(dispatch) {
+    try {
+      dispatch(setLoading(true));
+      const response = await axiosInstance.post(
+        endpoints.candidate.searchcandidateListBasedOnJobId,
+        payload
+      );
+      if (response.status === 200) {
+        dispatch(setCandidatesList(response.data.data ?? []));
+        dispatch(setPagination(response.data.data));
+        dispatch(hasError(null));
+        dispatch(setLoading(false));
+      }
+    } catch (error) {
+      dispatch(setLoading(false));
+      dispatch(hasError(error));
+    }
+  };
+}
+
+export function searchCandidatesToAddInJobApplication(query) {
+  const payload = {
+    query: {
+      isActive: true,
+      query,
+    },
+    options: {
+      sort: {
+        createdAt: -1,
+      },
+      page: 1,
+      paginate: 100000,
+    },
+    isCountOnly: false,
+  };
+  return async function searchCandidatesToAddInJobApplicationThunk(dispatch) {
+    try {
+      const response = await axiosInstance.post(
+        endpoints.candidate.searchCandidateToAddInJobPost,
+        payload
+      );
+      if (response.status === 200) {
+        dispatch(setCandidateDataToAddInJobPost(response.data.data ? response.data.data.data : []));
+        dispatch(hasError(null));
+      }
+    } catch (error) {
+      dispatch(hasError(error));
+    }
+  };
+}
+
+export function addCandidateToJobApplication(jp_id, org_cand_id) {
+  const payload = {
+    org_cand_id,
+    jp_id,
+  };
+  return async function addCandidateToJobApplicationThunk(dispatch) {
+    try {
+      const response = await axiosInstance.post(endpoints.candidate.addCandidateToJobPost, payload);
+      if (response.status === 200) {
+        console.log(response);
+        if (response.data.message === 'Application already exists') {
+          dispatch(hasError('Application already exists'));
+        } else {
+          dispatch(hasError(null));
+        }
+      }
+    } catch (error) {
       dispatch(hasError(error));
     }
   };
