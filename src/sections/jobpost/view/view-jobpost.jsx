@@ -80,6 +80,7 @@ const ViewJobPost = () => {
               startIcon={<Iconify icon="mingcute:add-line" />}
               variant="contained"
               type="submit"
+              href="/application/jobposts/create/"
               // size="large"
             >
               New Job

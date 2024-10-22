@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, Card, Container, Grid, Stack, Typography } from '@mui/material';
 
+import { DashboardContent } from 'src/layouts/dashboard';
 import {
   setMainSteps,
   setPreferanceSteps,
@@ -19,7 +20,6 @@ import { useSettingsContext } from 'src/components/settings';
 import AddJobDetails from '../create/add-jobdetails';
 import JobPreferances from '../create/job-preferances';
 import VerifyJobPosting from '../create/verify-job-posting';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 // data
 const infoCardData = [

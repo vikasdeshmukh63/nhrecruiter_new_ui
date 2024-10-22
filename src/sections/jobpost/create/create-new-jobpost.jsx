@@ -1,12 +1,13 @@
 'use client';
 
-import { useTheme } from '@emotion/react';
-import { Icon } from '@iconify/react';
 import { useEffect } from 'react';
+import { Icon } from '@iconify/react';
+import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Box, Card, Container, Grid, Stack, Typography } from '@mui/material';
 
+import { DashboardContent } from 'src/layouts/dashboard';
 import {
   setMainCurrentSteps,
   setMainSteps,
@@ -19,7 +20,6 @@ import { useSettingsContext } from 'src/components/settings';
 import AddJobDetails from './add-jobdetails';
 import JobPreferances from './job-preferances';
 import VerifyJobPosting from './verify-job-posting';
-import { DashboardContent } from 'src/layouts/dashboard';
 
 // data
 const infoCardData = [
