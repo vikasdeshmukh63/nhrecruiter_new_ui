@@ -31,6 +31,7 @@ import { ContactsPopover } from '../components/contacts-popover';
 import { WorkspacesPopover } from '../components/workspaces-popover';
 import { navData as dashboardNavData } from '../config-nav-dashboard';
 import { NotificationsDrawer } from '../components/notifications-drawer';
+import NovelHireCopyRight from './novelhire-copy-right';
 
 // ----------------------------------------------------------------------
 
@@ -197,7 +198,7 @@ export function DashboardLayout({ sx, children, header, data }) {
       /** **************************************
        * Footer
        *************************************** */
-      footerSection={null}
+      footerSection={<NovelHireCopyRight />}
       /** **************************************
        * Style
        *************************************** */

@@ -6,13 +6,9 @@ import Typography from '@mui/material/Typography';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemButton from '@mui/material/ListItemButton';
-
 import { fToNow } from 'src/utils/format-time';
-
-import { CONFIG } from 'src/config-global';
-
-import { Label } from 'src/components/label';
 import { FileThumbnail } from 'src/components/file-thumbnail';
+import { Label } from 'src/components/label';
 
 // ----------------------------------------------------------------------
 
@@ -25,11 +21,21 @@ export function NotificationItem({ notification }) {
         <Stack
           alignItems="center"
           justifyContent="center"
-          sx={{ width: 40, height: 40, borderRadius: '50%', bgcolor: 'background.neutral' }}
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            bgcolor: 'background.neutral',
+          }}
         >
           <Box
             component="img"
-            src={`${CONFIG.assetsDir}/assets/icons/notification/${(notification.type === 'order' && 'ic-order') || (notification.type === 'chat' && 'ic-chat') || (notification.type === 'mail' && 'ic-mail') || (notification.type === 'delivery' && 'ic-delivery')}.svg`}
+            src={`/assets/icons/notification/${
+              (notification.type === 'order' && 'ic_order') ||
+              (notification.type === 'chat' && 'ic_chat') ||
+              (notification.type === 'mail' && 'ic_mail') ||
+              (notification.type === 'delivery' && 'ic_delivery')
+            }.svg`}
             sx={{ width: 24, height: 24 }}
           />
         </Stack>
@@ -124,7 +130,10 @@ export function NotificationItem({ notification }) {
         bgcolor: 'background.neutral',
       }}
     >
-      <FileThumbnail file="http://localhost:8080/httpsdesign-suriname-2015.mp3" />
+      <FileThumbnail
+        file="http://localhost:8080/httpsdesign-suriname-2015.mp3"
+        sx={{ width: 40, height: 40 }}
+      />
 
       <Stack spacing={1} direction={{ xs: 'column', sm: 'row' }} flexGrow={1} sx={{ minWidth: 0 }}>
         <ListItemText
@@ -193,7 +202,7 @@ export function NotificationItem({ notification }) {
       sx={{
         p: 2.5,
         alignItems: 'flex-start',
-        borderBottom: (theme) => `dashed 1px ${theme.vars.palette.divider}`,
+        borderBottom: (theme) => `dashed 1px ${theme.palette.divider}`,
       }}
     >
       {renderUnReadBadge}
