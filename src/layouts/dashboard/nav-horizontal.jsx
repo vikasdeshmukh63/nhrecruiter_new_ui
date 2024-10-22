@@ -11,7 +11,7 @@ export function NavHorizontal({ data, layoutQuery, sx, ...other }) {
   return (
     <Box
       sx={{
-        width: 0.8,
+        width: 1,
         position: 'relative',
         flexDirection: 'column',
         display: { xs: 'none', [layoutQuery]: 'flex' },
