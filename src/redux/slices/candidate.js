@@ -298,6 +298,19 @@ export function addCandidateToJobApplication(jp_id, org_cand_id) {
   };
 }
 
+export function addBulkCandidateSchedule(payload) {
+  return async function addBulkCandidateScheduleThunk(dispatch) {
+    try {
+      const response = await axiosInstance.post(endpoints.candidate.createBulkSchedule, payload);
+      if (response.status === 200) {
+        dispatch(hasError(null));
+      }
+    } catch (error) {
+      dispatch(hasError(error));
+    }
+  };
+}
+
 // ! function to delete multiple candidate
 export function deleteMultipleCandidates(id) {
   const payload = { ids: id };

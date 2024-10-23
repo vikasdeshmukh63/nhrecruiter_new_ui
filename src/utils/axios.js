@@ -62,6 +62,7 @@ export const endpoints = {
     searchCandidateToAddInJobPost:
       '/recruiter/api/v1/candidates/searchtoaddcandidatetojobapplication',
     addCandidateToJobPost: '/recruiter/api/v1/candidates/addcandidatejobapplication',
+    createBulkSchedule: '/recruiter/api/v1/iv_schedules/addBulk',
   },
   companies: {
     list: '/recruiter/api/v1/companies/list',

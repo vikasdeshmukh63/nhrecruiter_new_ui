@@ -116,7 +116,12 @@ const JobPostAddCandidatesList = ({ table }) => {
   return (
     <Card>
       {/* table toolbar  */}
-      <JobPostAddCandidatesTableToolbar onFilters={handleFilters} filters={filters} />
+      <JobPostAddCandidatesTableToolbar
+        numSelected={table.selected.length}
+        onFilters={handleFilters}
+        filters={filters}
+        table={table}
+      />
 
       {/* reset buttons */}
       {canReset && (
@@ -137,7 +142,7 @@ const JobPostAddCandidatesList = ({ table }) => {
           onSelectAllRows={(checked) =>
             table.onSelectAllRows(
               checked,
-              candidatesData.map((row) => row.id)
+              candidatesData.map((row) => row)
             )
           }
           action={
@@ -159,7 +164,7 @@ const JobPostAddCandidatesList = ({ table }) => {
             onSelectAllRows={(checked) =>
               table.onSelectAllRows(
                 checked,
-                candidatesData.map((row) => row.id)
+                candidatesData.map((row) => row)
               )
             }
           />
@@ -177,8 +182,8 @@ const JobPostAddCandidatesList = ({ table }) => {
                 rowsPerPage={table.rowsPerPage}
                 Status={status}
                 filters={filters}
-                selected={table.selected.includes(row.id)}
-                onSelectRow={() => table.onSelectRow(row.id)}
+                selected={table.selected.includes(row)}
+                onSelectRow={() => table.onSelectRow(row)}
               />
             ))}
             {/* no data component  */}
